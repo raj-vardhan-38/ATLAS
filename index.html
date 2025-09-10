@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATLAS - Environmental DNA Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                        'rejouice': ['Rejouice-Headline', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0f766e',
+                        accent: '#06b6d4',
+                        dark: '#1f2937',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="scroll-smooth">
+    <!-- Header -->
+    <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-200">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
+                        <i class="fas fa-dna text-white text-lg"></i>
+                    </div>
+                    <span class="text-2xl font-bold text-dark">ATLAS</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-gray-700 hover:text-accent transition-colors duration-300 pb-1">Home</a>
+                    <a href="#stats" class="nav-link text-gray-700 hover:text-accent transition-colors duration-300 pb-1">Impact</a>
+                    <a href="#about" class="nav-link text-gray-700 hover:text-accent transition-colors duration-300 pb-1">About</a>
+                    <a href="#process" class="nav-link text-gray-700 hover:text-accent transition-colors duration-300 pb-1">Process</a>
+                    <a href="#features" class="nav-link text-gray-700 hover:text-accent transition-colors duration-300 pb-1">Features</a>
+                    <a href="#research" class="nav-link text-gray-700 hover:text-accent transition-colors duration-300 pb-1">Research</a>
+                    <a href="#contact" class="nav-link text-gray-700 hover:text-accent transition-colors duration-300 pb-1">Contact</a>
+                </div>
+                <button class="md:hidden text-gray-700" id="mobile-menu-btn">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center relative overflow-hidden">
+            <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover z-0">
+                <source src="MainPageBG.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-black/40 z-10"></div>
+            <div class="container mx-auto px-6 relative z-20">
+                <div class="max-w-4xl mx-auto text-center text-white">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 fade-in">
+                        Decode Nature's
+                        <span class="text-accent">Hidden Stories</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-8 opacity-90 fade-in">
+                        ATLAS is a revolutionary environmental DNA analysis platform that maps biodiversity, discovers new species, and monitors ecosystem health with unprecedented precision.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in">
+                        <button class="bg-accent text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover">
+                            Start Analysis
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover hover:bg-white hover:text-primary">
+                            View Demo
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section id="stats" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="text-center fade-in">
+                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">24M+</div>
+                        <div class="text-gray-600 font-medium">Genetic Markers Sequenced</div>
+                    </div>
+                    <div class="text-center fade-in">
+                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">99.2%</div>
+                        <div class="text-gray-600 font-medium">Species Identification Accuracy</div>
+                    </div>
+                    <div class="text-center fade-in">
+                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">1,847</div>
+                        <div class="text-gray-600 font-medium">New Species Discovered</div>
+                    </div>
+                    <div class="text-center fade-in">
+                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">156</div>
+                        <div class="text-gray-600 font-medium">Countries Monitored</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="max-w-6xl mx-auto">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div class="fade-in">
+                            <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6">
+                                Revolutionizing
+                                <span class="text-primary">Biodiversity Science</span>
+                            </h2>
+                            <p class="text-lg text-gray-600 mb-6">
+                                ATLAS harnesses the power of environmental DNA (eDNA) to unlock the secrets of our planet's biodiversity. Our AI-driven platform analyzes genetic material from water, soil, and air samples to create comprehensive ecosystem maps.
+                            </p>
+                            <p class="text-lg text-gray-600 mb-8">
+                                From tracking endangered species to discovering new life forms, we're transforming how scientists, conservationists, and policymakers understand and protect our natural world.
+                            </p>
+                            <button class="bg-primary text-white px-8 py-4 rounded-lg font-semibold btn-hover">
+                                Learn More
+                            </button>
+                        </div>
+                        <div class="fade-in">
+                            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Scientists analyzing DNA samples" 
+                                 class="rounded-2xl shadow-2xl">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section id="process" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-6xl mx-auto">
+                    <div class="text-center mb-16 fade-in">
+                        <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6">How It Works</h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Our streamlined process transforms environmental samples into actionable biodiversity insights
+                        </p>
+                    </div>
+                    <div class="grid md:grid-cols-4 gap-8">
+                        <div class="text-center fade-in card-hover">
+                            <div class="w-20 h-20 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-flask text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-4">1. Sample Collection</h3>
+                            <p class="text-gray-600">
+                                Collect water, soil, or air samples from any environment using our standardized protocols
+                            </p>
+                        </div>
+                        <div class="text-center fade-in card-hover">
+                            <div class="w-20 h-20 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-dna text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-4">2. DNA Sequencing</h3>
+                            <p class="text-gray-600">
+                                Extract and sequence environmental DNA using next-generation sequencing technology
+                            </p>
+                        </div>
+                        <div class="text-center fade-in card-hover">
+                            <div class="w-20 h-20 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-brain text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-4">3. AI Analysis</h3>
+                            <p class="text-gray-600">
+                                Our machine learning algorithms identify species and analyze biodiversity patterns
+                            </p>
+                        </div>
+                        <div class="text-center fade-in card-hover">
+                            <div class="w-20 h-20 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-chart-line text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-4">4. Data Visualization</h3>
+                            <p class="text-gray-600">
+                                Interactive dashboards and reports provide actionable insights for conservation
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="max-w-6xl mx-auto">
+                    <div class="text-center mb-16 fade-in">
+                        <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6">Platform Features</h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Comprehensive tools for environmental DNA analysis and biodiversity monitoring
+                        </p>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                                <i class="fas fa-microscope text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-4">Species Identification</h3>
+                            <p class="text-gray-600">
+                                Identify thousands of species from a single sample with our comprehensive genetic database
+                            </p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                                <i class="fas fa-globe text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-4">Ecosystem Mapping</h3>
+                            <p class="text-gray-600">
+                                Create detailed biodiversity maps and track ecosystem health over time
+                            </p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                                <i class="fas fa-exclamation-triangle text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-4">Invasive Species Detection</h3>
+                            <p class="text-gray-600">
+                                Early detection and monitoring of invasive species to protect native ecosystems
+                            </p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                                <i class="fas fa-clock text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-4">Real-time Monitoring</h3>
+                            <p class="text-gray-600">
+                                Continuous ecosystem monitoring with automated alerts for significant changes
+                            </p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                                <i class="fas fa-shield-alt text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-4">Conservation Planning</h3>
+                            <p class="text-gray-600">
+                                Data-driven insights to support conservation strategies and policy decisions
+                            </p>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
+                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                                <i class="fas fa-users text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark mb-4">Collaborative Research</h3>
+                            <p class="text-gray-600">
+                                Share data and collaborate with researchers worldwide through our secure platform
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research Section -->
+        <section id="research" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-6xl mx-auto">
+                    <div class="text-center mb-16 fade-in">
+                        <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6">Research Impact</h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Discover how our platform is advancing scientific understanding across diverse ecosystems
+                        </p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in card-hover">
+                            <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Great Lakes research" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-8">
+                                <h3 class="text-xl font-bold text-dark mb-4">Tracking Invasive Species in the Great Lakes</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Our eDNA monitoring system detected Asian carp populations 6 months before traditional methods, enabling rapid response measures that prevented ecosystem disruption.
+                                </p>
+                                <div class="flex items-center text-accent font-semibold">
+                                    <span>Read Case Study</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in card-hover">
+                            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Amazon rainforest" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-8">
+                                <h3 class="text-xl font-bold text-dark mb-4">Discovering Novel Microbes in the Amazon</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Analysis of soil samples revealed 127 previously unknown microbial species, including potential sources for new antibiotics and biotechnology applications.
+                                </p>
+                                <div class="flex items-center text-accent font-semibold">
+                                    <span>Read Case Study</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in card-hover">
+                            <img src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Coral reef monitoring" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-8">
+                                <h3 class="text-xl font-bold text-dark mb-4">Coral Reef Biodiversity Assessment</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Comprehensive eDNA surveys of coral reefs revealed hidden biodiversity patterns and identified critical areas for marine protected area designation.
+                                </p>
+                                <div class="flex items-center text-accent font-semibold">
+                                    <span>Read Case Study</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden fade-in card-hover">
+                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                 alt="Arctic ecosystem" 
+                                 class="w-full h-48 object-cover">
+                            <div class="p-8">
+                                <h3 class="text-xl font-bold text-dark mb-4">Arctic Ecosystem Climate Response</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Long-term eDNA monitoring documented species migration patterns in response to climate change, informing conservation strategies for polar regions.
+                                </p>
+                                <div class="flex items-center text-accent font-semibold">
+                                    <span>Read Case Study</span>
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 hero-gradient relative">
+            <div class="absolute inset-0 bg-black/20"></div>
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="max-w-4xl mx-auto text-center text-white">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 fade-in">
+                        Ready to Explore
+                        <span class="text-accent">Hidden Biodiversity?</span>
+                    </h2>
+                    <p class="text-xl mb-8 opacity-90 fade-in">
+                        Join leading researchers, conservationists, and organizations using ATLAS to unlock the secrets of our planet's ecosystems.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12 fade-in">
+                        <button class="bg-accent text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover">
+                            Start Free Trial
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover hover:bg-white hover:text-primary">
+                            View Documentation
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover hover:bg-white hover:text-primary">
+                            Partner With Us
+                        </button>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-8 text-center fade-in">
+                        <div>
+                            <i class="fas fa-envelope text-3xl text-accent mb-4"></i>
+                            <h3 class="text-lg font-semibold mb-2">Email Us</h3>
+                            <p class="opacity-90">contact@atlas-edna.com</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone text-3xl text-accent mb-4"></i>
+                            <h3 class="text-lg font-semibold mb-2">Call Us</h3>
+                            <p class="opacity-90">+1 (555) 123-4567</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-map-marker-alt text-3xl text-accent mb-4"></i>
+                            <h3 class="text-lg font-semibold mb-2">Visit Us</h3>
+                            <p class="opacity-90">San Francisco, CA</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                    <div class="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
+                        <i class="fas fa-dna text-white text-lg"></i>
+                    </div>
+                    <span class="text-2xl font-bold">ATLAS</span>
+                </div>
+                <div class="flex space-x-6 mb-4 md:mb-0">
+                    <a href="#" class="text-gray-400 hover:text-accent transition-colors duration-300">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-accent transition-colors duration-300">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-accent transition-colors duration-300">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-accent transition-colors duration-300">
+                        <i class="fab fa-youtube text-xl"></i>
+                    </a>
+                </div>
+                <div class="text-gray-400 text-sm">
+                    © 2024 ATLAS. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
