@@ -8,7 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Preload critical resources -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="MainPageBG.mp4" as="video" type="video/mp4">
+    <link rel="preload" href="Rejouice-Headline.ttf" as="font" type="font/ttf" crossorigin>
+    
     <link rel="stylesheet" href="styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -28,6 +36,19 @@
     </script>
 </head>
 <body class="scroll-smooth">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mb-4 mx-auto animate-pulse">
+                <i class="fas fa-dna text-white text-2xl"></i>
+            </div>
+            <div class="text-2xl font-bold text-dark mb-2">ATLAS</div>
+            <div class="text-gray-600">Loading environmental insights...</div>
+            <div class="mt-4 w-48 h-1 bg-gray-200 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-primary to-accent rounded-full animate-pulse" style="width: 100%; animation: loadingBar 2s ease-in-out infinite;"></div>
+            </div>
+        </div>
+    </div>
     <!-- Header -->
     <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-200">
         <nav class="container mx-auto px-6 py-4">
@@ -58,8 +79,11 @@
     <main>
         <!-- Hero Section -->
         <section id="home" class="min-h-screen flex items-center relative overflow-hidden">
-            <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover z-0">
+            <video autoplay muted loop playsinline preload="metadata" class="absolute inset-0 w-full h-full object-cover z-0">
                 <source src="MainPageBG.mp4" type="video/mp4">
+                <!-- Fallback image for slow connections -->
+                <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
+                     alt="Environmental DNA Analysis" class="w-full h-full object-cover">
             </video>
             <div class="absolute inset-0 bg-black/40 z-10"></div>
             <div class="container mx-auto px-6 relative z-20">
@@ -90,20 +114,20 @@
         <section id="stats" class="py-20 bg-gray-50">
             <div class="container mx-auto px-6">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                    <div class="text-center fade-in">
-                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">24M+</div>
+                    <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2 counter" data-target="24">0M+</div>
                         <div class="text-gray-600 font-medium">Genetic Markers Sequenced</div>
                     </div>
-                    <div class="text-center fade-in">
-                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">99.2%</div>
+                    <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2 counter" data-target="99.2">0%</div>
                         <div class="text-gray-600 font-medium">Species Identification Accuracy</div>
                     </div>
-                    <div class="text-center fade-in">
-                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">1,847</div>
+                    <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2 counter" data-target="1847">0</div>
                         <div class="text-gray-600 font-medium">New Species Discovered</div>
                     </div>
-                    <div class="text-center fade-in">
-                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2">156</div>
+                    <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+                        <div class="text-4xl md:text-5xl font-bold text-primary mb-2 counter" data-target="156">0</div>
                         <div class="text-gray-600 font-medium">Countries Monitored</div>
                     </div>
                 </div>
@@ -115,77 +139,258 @@
             <div class="container mx-auto px-6">
                 <div class="max-w-6xl mx-auto">
                     <div class="grid md:grid-cols-2 gap-12 items-center">
-                        <div class="fade-in">
+                        <div data-aos="fade-right" data-aos-duration="800">
                             <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6">
                                 Revolutionizing
                                 <span class="text-primary">Biodiversity Science</span>
                             </h2>
-                            <p class="text-lg text-gray-600 mb-6">
+                            <p class="text-lg text-gray-600 mb-6" data-aos="fade-up" data-aos-delay="200">
                                 ATLAS harnesses the power of environmental DNA (eDNA) to unlock the secrets of our planet's biodiversity. Our AI-driven platform analyzes genetic material from water, soil, and air samples to create comprehensive ecosystem maps.
                             </p>
-                            <p class="text-lg text-gray-600 mb-8">
+                            <p class="text-lg text-gray-600 mb-8" data-aos="fade-up" data-aos-delay="300">
                                 From tracking endangered species to discovering new life forms, we're transforming how scientists, conservationists, and policymakers understand and protect our natural world.
                             </p>
-                            <button class="bg-primary text-white px-8 py-4 rounded-lg font-semibold btn-hover">
+                            <button class="bg-primary text-white px-8 py-4 rounded-lg font-semibold btn-hover" data-aos="fade-up" data-aos-delay="400">
                                 Learn More
                             </button>
                         </div>
-                        <div class="fade-in">
+                        <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
                             <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                                  alt="Scientists analyzing DNA samples" 
-                                 class="rounded-2xl shadow-2xl">
+                                 class="rounded-2xl shadow-2xl floating-image">
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Process Section -->
-        <section id="process" class="py-20 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-6xl mx-auto">
-                    <div class="text-center mb-16 fade-in">
-                        <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6">How It Works</h2>
-                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                            Our streamlined process transforms environmental samples into actionable biodiversity insights
+        <!-- Interactive Timeline Process Section -->
+        <section id="process" class="py-20 bg-gradient-to-br from-gray-50 via-white to-gray-50 relative overflow-hidden">
+            <!-- Progress Bar -->
+            <div class="fixed top-0 left-0 w-full h-1 bg-gray-200 z-40">
+                <div id="process-progress" class="h-full bg-gradient-to-r from-primary to-accent transition-all duration-300 ease-out" style="width: 0%"></div>
+            </div>
+            
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 opacity-5">
+                <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, #0f766e 1px, transparent 0); background-size: 20px 20px;"></div>
+            </div>
+            
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Section Header -->
+                    <div class="text-center mb-20" data-aos="fade-up">
+                        <h2 class="text-4xl md:text-6xl font-bold text-dark mb-6">
+                            How It <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Works</span>
+                        </h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                            Follow our revolutionary journey from environmental samples to actionable biodiversity insights
                         </p>
                     </div>
-                    <div class="grid md:grid-cols-4 gap-8">
-                        <div class="text-center fade-in card-hover">
-                            <div class="w-20 h-20 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6">
-                                <i class="fas fa-flask text-white text-2xl"></i>
+                    
+                    <!-- Interactive Timeline -->
+                    <div class="relative">
+                        <!-- Central Dotted Line -->
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full">
+                            <div class="w-full h-full border-l-4 border-dotted border-gray-300 relative">
+                                <!-- Moving Tracker Dot -->
+                                <div id="timeline-tracker" class="absolute w-4 h-4 bg-gradient-to-r from-primary to-accent rounded-full shadow-lg transform -translate-x-1/2 transition-all duration-500 ease-out" style="top: 0%; left: 50%;"></div>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-4">1. Sample Collection</h3>
-                            <p class="text-gray-600">
-                                Collect water, soil, or air samples from any environment using our standardized protocols
-                            </p>
                         </div>
-                        <div class="text-center fade-in card-hover">
-                            <div class="w-20 h-20 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6">
-                                <i class="fas fa-dna text-white text-2xl"></i>
+                        
+                        <!-- Timeline Steps -->
+                        <div class="space-y-32">
+                            <!-- Step 1: Card Left + Media Right -->
+                            <div class="timeline-step relative" data-step="1">
+                                <!-- Step Circle -->
+                                <div class="step-circle absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-white rounded-full shadow-xl border-4 border-primary z-20 flex items-center justify-center transition-all duration-300">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center">
+                                        <i class="fas fa-flask text-white text-sm step-icon"></i>
+                                    </div>
+                                    <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-full">01</div>
+                                </div>
+                                
+                                <div class="grid md:grid-cols-2 gap-12 items-center">
+                                    <!-- Content Card (Left) -->
+                                    <div class="timeline-content" data-aos="fade-right" data-aos-duration="800">
+                                        <div class="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100 hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2">
+                                            <div class="flex items-center mb-6">
+                                                <div class="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center mr-4">
+                                                    <i class="fas fa-flask text-white text-lg"></i>
+                                                </div>
+                                                <div>
+                                                    <h3 class="text-2xl font-bold text-dark">Sample Collection</h3>
+                                                    <p class="text-primary font-medium">Environmental DNA Extraction</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-600 leading-relaxed mb-6">
+                                                We begin by collecting environmental DNA (eDNA) from water, soil, or air samples using standardized field protocols that ensure sample integrity for downstream molecular analysis.
+                                            </p>
+                                            <div class="flex items-center text-primary font-semibold">
+                                                <span>Learn More</span>
+                                                <i class="fas fa-arrow-right ml-2 transform transition-transform group-hover:translate-x-1"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Media (Right) -->
+                                    <div class="timeline-media" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                                        <div class="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500">
+                                            <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                                 alt="Environmental DNA Sample Collection" 
+                                                 class="w-full h-80 object-cover">
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                            <div class="absolute bottom-4 left-4 text-white">
+                                                <p class="text-sm font-medium">Field Collection Process</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-4">2. DNA Sequencing</h3>
-                            <p class="text-gray-600">
-                                Extract and sequence environmental DNA using next-generation sequencing technology
-                            </p>
-                        </div>
-                        <div class="text-center fade-in card-hover">
-                            <div class="w-20 h-20 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6">
-                                <i class="fas fa-brain text-white text-2xl"></i>
+                            
+                            <!-- Step 2: Media Left + Card Right -->
+                            <div class="timeline-step relative" data-step="2">
+                                <!-- Step Circle -->
+                                <div class="step-circle absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-white rounded-full shadow-xl border-4 border-accent z-20 flex items-center justify-center transition-all duration-300">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-accent to-primary rounded-full flex items-center justify-center">
+                                        <i class="fas fa-dna text-white text-sm step-icon"></i>
+                                    </div>
+                                    <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-accent text-white text-xs font-bold px-2 py-1 rounded-full">02</div>
+                                </div>
+                                
+                                <div class="grid md:grid-cols-2 gap-12 items-center">
+                                    <!-- Media (Left) -->
+                                    <div class="timeline-media order-2 md:order-1" data-aos="fade-right" data-aos-duration="800">
+                                        <div class="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500">
+                                            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                                 alt="DNA Sequencing Laboratory" 
+                                                 class="w-full h-80 object-cover">
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                            <div class="absolute bottom-4 left-4 text-white">
+                                                <p class="text-sm font-medium">Next-Gen Sequencing</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Content Card (Right) -->
+                                    <div class="timeline-content order-1 md:order-2" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                                        <div class="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100 hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2">
+                                            <div class="flex items-center mb-6">
+                                                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center mr-4">
+                                                    <i class="fas fa-dna text-white text-lg"></i>
+                                                </div>
+                                                <div>
+                                                    <h3 class="text-2xl font-bold text-dark">DNA Sequencing & Barcoding</h3>
+                                                    <p class="text-accent font-medium">Genetic Signature Analysis</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-600 leading-relaxed mb-6">
+                                                In the lab, we extract the eDNA and amplify key genetic barcode regions using next-generation sequencing technology. This creates a high-resolution digital snapshot of the ecosystem's biodiversity.
+                                            </p>
+                                            <div class="flex items-center text-accent font-semibold">
+                                                <span>Learn More</span>
+                                                <i class="fas fa-arrow-right ml-2 transform transition-transform group-hover:translate-x-1"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-4">3. AI Analysis</h3>
-                            <p class="text-gray-600">
-                                Our machine learning algorithms identify species and analyze biodiversity patterns
-                            </p>
-                        </div>
-                        <div class="text-center fade-in card-hover">
-                            <div class="w-20 h-20 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6">
-                                <i class="fas fa-chart-line text-white text-2xl"></i>
+                            
+                            <!-- Step 3: Card Left + Media Right -->
+                            <div class="timeline-step relative" data-step="3">
+                                <!-- Step Circle -->
+                                <div class="step-circle absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-white rounded-full shadow-xl border-4 border-purple-500 z-20 flex items-center justify-center transition-all duration-300">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-brain text-white text-sm step-icon"></i>
+                                    </div>
+                                    <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">03</div>
+                                </div>
+                                
+                                <div class="grid md:grid-cols-2 gap-12 items-center">
+                                    <!-- Content Card (Left) -->
+                                    <div class="timeline-content" data-aos="fade-right" data-aos-duration="800">
+                                        <div class="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100 hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2">
+                                            <div class="flex items-center mb-6">
+                                                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mr-4">
+                                                    <i class="fas fa-brain text-white text-lg"></i>
+                                                </div>
+                                                <div>
+                                                    <h3 class="text-2xl font-bold text-dark">AI Analysis with ATLAS</h3>
+                                                    <p class="text-purple-500 font-medium">Machine Learning Classification</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-600 leading-relaxed mb-6">
+                                                Our proprietary ATLAS software transforms raw sequence data into accurate classifications using deep learning models trained on genetic "fingerprints" for rapid and robust identification.
+                                            </p>
+                                            <div class="flex items-center text-purple-500 font-semibold">
+                                                <span>Learn More</span>
+                                                <i class="fas fa-arrow-right ml-2 transform transition-transform group-hover:translate-x-1"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Media (Right) -->
+                                    <div class="timeline-media" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                                        <div class="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500">
+                                            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                                 alt="AI Analysis and Machine Learning" 
+                                                 class="w-full h-80 object-cover">
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                            <div class="absolute bottom-4 left-4 text-white">
+                                                <p class="text-sm font-medium">AI-Powered Analysis</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-4">4. Data Visualization</h3>
-                            <p class="text-gray-600">
-                                Interactive dashboards and reports provide actionable insights for conservation
-                            </p>
+                            
+                            <!-- Step 4: Media Left + Card Right -->
+                            <div class="timeline-step relative" data-step="4">
+                                <!-- Step Circle -->
+                                <div class="step-circle absolute left-1/2 transform -translate-x-1/2 w-16 h-16 bg-white rounded-full shadow-xl border-4 border-emerald-500 z-20 flex items-center justify-center transition-all duration-300">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-chart-line text-white text-sm step-icon"></i>
+                                    </div>
+                                    <div class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full">04</div>
+                                </div>
+                                
+                                <div class="grid md:grid-cols-2 gap-12 items-center">
+                                    <!-- Media (Left) -->
+                                    <div class="timeline-media order-2 md:order-1" data-aos="fade-right" data-aos-duration="800">
+                                        <div class="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500">
+                                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                                                 alt="Data Visualization Dashboard" 
+                                                 class="w-full h-80 object-cover">
+                                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                            <div class="absolute bottom-4 left-4 text-white">
+                                                <p class="text-sm font-medium">Interactive Dashboards</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Content Card (Right) -->
+                                    <div class="timeline-content order-1 md:order-2" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                                        <div class="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100 hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2">
+                                            <div class="flex items-center mb-6">
+                                                <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center mr-4">
+                                                    <i class="fas fa-chart-line text-white text-lg"></i>
+                                                </div>
+                                                <div>
+                                                    <h3 class="text-2xl font-bold text-dark">Data Visualization & Insights</h3>
+                                                    <p class="text-emerald-500 font-medium">Actionable Intelligence</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-gray-600 leading-relaxed mb-6">
+                                                AI-driven classifications are synthesized into interactive dashboards and comprehensive biodiversity reports, delivering actionable insights for conservation and environmental monitoring.
+                                            </p>
+                                            <div class="flex items-center text-emerald-500 font-semibold">
+                                                <span>Learn More</span>
+                                                <i class="fas fa-arrow-right ml-2 transform transition-transform group-hover:translate-x-1"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -196,15 +401,15 @@
         <section id="features" class="py-20">
             <div class="container mx-auto px-6">
                 <div class="max-w-6xl mx-auto">
-                    <div class="text-center mb-16 fade-in">
+                    <div class="text-center mb-16" data-aos="fade-up">
                         <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6">Platform Features</h2>
                         <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                             Comprehensive tools for environmental DNA analysis and biodiversity monitoring
                         </p>
                     </div>
                     <div class="grid md:grid-cols-3 gap-8">
-                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
-                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="100">
+                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
                                 <i class="fas fa-microscope text-white text-xl"></i>
                             </div>
                             <h3 class="text-xl font-bold text-dark mb-4">Species Identification</h3>
@@ -212,8 +417,8 @@
                                 Identify thousands of species from a single sample with our comprehensive genetic database
                             </p>
                         </div>
-                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
-                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="200">
+                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
                                 <i class="fas fa-globe text-white text-xl"></i>
                             </div>
                             <h3 class="text-xl font-bold text-dark mb-4">Ecosystem Mapping</h3>
@@ -221,8 +426,8 @@
                                 Create detailed biodiversity maps and track ecosystem health over time
                             </p>
                         </div>
-                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
-                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="300">
+                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
                                 <i class="fas fa-exclamation-triangle text-white text-xl"></i>
                             </div>
                             <h3 class="text-xl font-bold text-dark mb-4">Invasive Species Detection</h3>
@@ -230,8 +435,8 @@
                                 Early detection and monitoring of invasive species to protect native ecosystems
                             </p>
                         </div>
-                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
-                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="400">
+                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
                                 <i class="fas fa-clock text-white text-xl"></i>
                             </div>
                             <h3 class="text-xl font-bold text-dark mb-4">Real-time Monitoring</h3>
@@ -239,8 +444,8 @@
                                 Continuous ecosystem monitoring with automated alerts for significant changes
                             </p>
                         </div>
-                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
-                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="500">
+                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
                                 <i class="fas fa-shield-alt text-white text-xl"></i>
                             </div>
                             <h3 class="text-xl font-bold text-dark mb-4">Conservation Planning</h3>
@@ -248,8 +453,8 @@
                                 Data-driven insights to support conservation strategies and policy decisions
                             </p>
                         </div>
-                        <div class="bg-white p-8 rounded-2xl shadow-lg fade-in card-hover">
-                            <div class="w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6">
+                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="600">
+                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
                                 <i class="fas fa-users text-white text-xl"></i>
                             </div>
                             <h3 class="text-xl font-bold text-dark mb-4">Collaborative Research</h3>
