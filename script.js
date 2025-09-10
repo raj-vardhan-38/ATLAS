@@ -132,12 +132,28 @@ counters.forEach(counter => {
 const processSection = document.getElementById('process');
 const timelineSteps = document.querySelectorAll('.timeline-step');
 const timelineTracker = document.getElementById('timeline-tracker');
+const trackerIcon = document.getElementById('tracker-icon');
 const processProgress = document.getElementById('process-progress');
-const stepCircles = document.querySelectorAll('.step-circle');
+
+// Step icons mapping
+const stepIcons = {
+    1: 'fas fa-flask',
+    2: 'fas fa-dna', 
+    3: 'fas fa-brain',
+    4: 'fas fa-chart-line'
+};
+
+// Step colors mapping
+const stepColors = {
+    1: 'border-primary',
+    2: 'border-accent', 
+    3: 'border-purple-500',
+    4: 'border-emerald-500'
+};
 
 // Timeline Scroll Tracker
 function updateTimelineTracker() {
-    if (!processSection || !timelineTracker) return;
+    if (!processSection || !timelineTracker || !trackerIcon) return;
     
     const sectionRect = processSection.getBoundingClientRect();
     const sectionTop = sectionRect.top + window.pageYOffset;
@@ -145,32 +161,87 @@ function updateTimelineTracker() {
     const scrollTop = window.pageYOffset;
     const windowHeight = window.innerHeight;
     
-    // Calculate progress through the section
+    // Calculate when section starts and ends in viewport
+    const sectionStart = sectionTop - windowHeight * 0.3;
+    const sectionEnd = sectionTop + sectionHeight - windowHeight * 0.7;
+    
+    // Calculate progress through the section (0 to 1)
     const sectionProgress = Math.max(0, Math.min(1, 
-        (scrollTop + windowHeight / 2 - sectionTop) / sectionHeight
+        (scrollTop - sectionStart) / (sectionEnd - sectionStart)
     ));
     
-    // Update tracker position (0% to 85% of timeline height)
-    const trackerPosition = sectionProgress * 85;
+    // Update tracker position (0% to 100% of timeline height to match dotted line)
+    const trackerPosition = sectionProgress * 100;
     timelineTracker.style.top = `${trackerPosition}%`;
+    
+    // More precise step detection using actual step positions
+    let activeStep = 1;
+    
+    // Get actual positions of timeline steps for better synchronization
+    const steps = document.querySelectorAll('.timeline-step');
+    if (steps.length > 0) {
+        const viewportCenter = scrollTop + windowHeight / 2;
+        
+        steps.forEach((step, index) => {
+            const stepRect = step.getBoundingClientRect();
+            const stepCenter = stepRect.top + window.pageYOffset + stepRect.height / 2;
+            
+            if (viewportCenter >= stepCenter - 200) {
+                activeStep = index + 1;
+            }
+        });
+    } else {
+        // Fallback to progress-based detection
+        if (sectionProgress > 0.75) activeStep = 4;
+        else if (sectionProgress > 0.5) activeStep = 3;
+        else if (sectionProgress > 0.25) activeStep = 2;
+    }
+    
+    // Update tracker icon and border color
+    updateTrackerIcon(activeStep);
+}
+
+// Function to update tracker icon and styling
+let currentStep = 1;
+function updateTrackerIcon(stepNumber) {
+    if (!trackerIcon || !timelineTracker || currentStep === stepNumber) return;
+    
+    currentStep = stepNumber;
+    
+    // Add smooth transition class
+    trackerIcon.style.transform = 'scale(0.8)';
+    
+    setTimeout(() => {
+        // Remove all existing icon classes
+        trackerIcon.className = '';
+        
+        // Add new icon class with transitions
+        trackerIcon.className = stepIcons[stepNumber] + ' text-white text-sm transition-all duration-300 ease-in-out';
+        
+        // Remove all border color classes
+        timelineTracker.classList.remove('border-primary', 'border-accent', 'border-purple-500', 'border-emerald-500');
+        
+        // Add appropriate border color
+        timelineTracker.classList.add(stepColors[stepNumber]);
+        
+        // Scale back up
+        trackerIcon.style.transform = 'scale(1)';
+    }, 150);
 }
 
 // Timeline Step Observer for Active State
 const timelineObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         const stepNumber = parseInt(entry.target.getAttribute('data-step'));
-        const stepCircle = entry.target.querySelector('.step-circle');
         
         if (entry.isIntersecting) {
             // Add active class to current step
             entry.target.classList.add('active');
-            stepCircle.classList.add('active');
             
             // Remove active class from other steps
             timelineSteps.forEach((step, index) => {
                 if (step !== entry.target) {
                     step.classList.remove('active');
-                    step.querySelector('.step-circle').classList.remove('active');
                 }
             });
             
@@ -187,30 +258,6 @@ const timelineObserver = new IntersectionObserver((entries) => {
 function animateStepContent(step, stepNumber) {
     const content = step.querySelector('.timeline-content');
     const media = step.querySelector('.timeline-media');
-    const icon = step.querySelector('.step-icon');
-    
-    // Icon-specific animations
-    if (icon) {
-        switch(stepNumber) {
-            case 1:
-                icon.style.animation = 'iconBounce 0.8s ease-in-out';
-                break;
-            case 2:
-                icon.style.animation = 'processIconSpin 1s ease-in-out';
-                break;
-            case 3:
-                icon.style.animation = 'pulse 1.5s ease-in-out';
-                break;
-            case 4:
-                icon.style.animation = 'iconBounce 0.6s ease-in-out';
-                break;
-        }
-        
-        // Reset animation after completion
-        setTimeout(() => {
-            if (icon) icon.style.animation = '';
-        }, 2000);
-    }
     
     // Add subtle content animations
     if (content) {
@@ -226,28 +273,19 @@ timelineSteps.forEach(step => {
     timelineObserver.observe(step);
 });
 
-// Enhanced hover effects for step circles
-stepCircles.forEach((circle, index) => {
-    const icon = circle.querySelector('.step-icon');
-    
-    circle.addEventListener('mouseenter', () => {
-        // Scale and rotate icon on hover
-        if (icon) {
-            const rotations = [15, -15, 10, -10];
-            icon.style.transform = `scale(1.2) rotate(${rotations[index]}deg)`;
-        }
-        
-        // Add glow effect
-        circle.style.boxShadow = '0 0 30px rgba(15, 118, 110, 0.6), 0 0 60px rgba(15, 118, 110, 0.3)';
+// Enhanced hover effects for timeline tracker
+if (timelineTracker) {
+    timelineTracker.addEventListener('mouseenter', () => {
+        // Add glow effect to tracker
+        timelineTracker.style.boxShadow = '0 0 30px rgba(15, 118, 110, 0.6), 0 0 60px rgba(15, 118, 110, 0.3)';
+        timelineTracker.style.transform = 'translateX(-50%) scale(1.1)';
     });
     
-    circle.addEventListener('mouseleave', () => {
-        if (icon) {
-            icon.style.transform = '';
-        }
-        circle.style.boxShadow = '';
+    timelineTracker.addEventListener('mouseleave', () => {
+        timelineTracker.style.boxShadow = '';
+        timelineTracker.style.transform = 'translateX(-50%) scale(1)';
     });
-});
+}
 
 // Global Progress Bar Animation
 let ticking = false;
@@ -266,7 +304,10 @@ function updateProgressBar() {
 
 function requestTick() {
     if (!ticking) {
-        requestAnimationFrame(updateProgressBar);
+        requestAnimationFrame(() => {
+            updateProgressBar();
+            updateTimelineTracker();
+        });
         ticking = true;
     }
 }
@@ -403,7 +444,6 @@ function throttle(func, limit) {
 // Apply throttling to scroll-heavy functions
 window.addEventListener('scroll', throttle(() => {
     requestTick();
-    updateTimelineTracker();
 }, 16)); // ~60fps
 
 // Initialize timeline on load
