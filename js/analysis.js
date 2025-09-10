@@ -296,13 +296,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     }
 
-    // Model card hover effects
+    // Enhanced model card interactions
     const modelCards = document.querySelectorAll('.bg-gradient-to-br');
     modelCards.forEach(card => {
+        // Add interactive-card class for enhanced animations
+        card.classList.add('interactive-card');
+        
         card.addEventListener('mouseenter', () => {
             const icon = card.querySelector('i');
             if (icon) {
                 icon.style.transform = 'scale(1.1) rotate(5deg)';
+                icon.style.transition = 'all 0.3s ease';
             }
         });
         
@@ -310,6 +314,48 @@ document.addEventListener('DOMContentLoaded', function() {
             const icon = card.querySelector('i');
             if (icon) {
                 icon.style.transform = 'scale(1) rotate(0deg)';
+            }
+        });
+        
+        // Add click animation
+        card.addEventListener('click', () => {
+            card.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                card.style.transform = '';
+            }, 150);
+        });
+    });
+
+    // Enhanced form interactions
+    const formElements = document.querySelectorAll('input, textarea, button');
+    formElements.forEach(element => {
+        // Add focus animations
+        element.addEventListener('focus', () => {
+            element.classList.add('ring-2', 'ring-primary/20');
+        });
+        
+        element.addEventListener('blur', () => {
+            element.classList.remove('ring-2', 'ring-primary/20');
+        });
+    });
+
+    // Add loading states to buttons
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            if (!this.disabled && !this.classList.contains('loading')) {
+                this.classList.add('loading');
+                const originalContent = this.innerHTML;
+                
+                // Add loading spinner for non-analysis buttons
+                if (this.id !== 'startAnalysisBtn') {
+                    this.innerHTML = '<div class="loading-spinner inline-block mr-2"></div>Processing...';
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalContent;
+                        this.classList.remove('loading');
+                    }, 1000);
+                }
             }
         });
     });

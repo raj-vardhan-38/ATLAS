@@ -7,14 +7,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="assets/image/favicon.png">
     <!-- Preload critical resources -->
-    <link rel="preload" href="styles.css" as="style">
-    <link rel="preload" href="script.js" as="script">
-    <link rel="preload" href="MainPageBG.mp4" as="video" type="video/mp4">
-    <link rel="preload" href="Rejouice-Headline.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="css/styles.css" as="style">
+    <link rel="preload" href="js/script.js" as="script">
+    <link rel="preload" href="assets/video/MainPageBG.mp4" as="video" type="video/mp4">
+    <link rel="preload" href="font/Rejouice-Headline.ttf" as="font" type="font/ttf" crossorigin>
     
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
@@ -24,6 +24,9 @@
                     fontFamily: {
                         'inter': ['Inter', 'sans-serif'],
                         'rejouice': ['Rejouice-Headline', 'Inter', 'sans-serif'],
+                        'nb-boo': ['NB-BOO', 'Inter', 'sans-serif'],
+                        'display': ['Rejouice-Headline', 'Inter', 'sans-serif'],
+                        'accent': ['NB-BOO', 'Inter', 'sans-serif'],
                     },
                     colors: {
                         primary: '#0f766e',
@@ -35,7 +38,11 @@
         }
     </script>
 </head>
-<body class="scroll-smooth">
+<body class="bg-gray-50 font-inter">
+    <!-- Skip Links for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#navigation" class="skip-link">Skip to navigation</a>
+    
     <!-- Loading Screen -->
     <div id="loading-screen" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
         <div class="text-center">
@@ -51,13 +58,13 @@
     </div>
     <!-- Header -->
     <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-200">
-        <nav class="container mx-auto px-6 py-4">
+        <nav id="navigation" class="container mx-auto px-6 py-4" role="navigation" aria-label="Main navigation">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                     <div class="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
                         <i class="fas fa-dna text-white text-lg"></i>
                     </div>
-                    <span class="text-2xl font-bold text-dark">ATLAS</span>
+                    <span class="text-2xl font-bold text-dark font-nb-boo">ATLAS</span>
                 </div>
                 <div class="hidden md:flex space-x-8">
                     <a href="#home" class="nav-link text-gray-700 hover:text-accent transition-colors duration-300 pb-1">Home</a>
@@ -76,11 +83,11 @@
     </header>
 
     <!-- Main Content -->
-    <main>
+    <main id="main-content">
         <!-- Hero Section -->
         <section id="home" class="min-h-screen flex items-center relative overflow-hidden">
             <video autoplay muted loop playsinline preload="metadata" class="absolute inset-0 w-full h-full object-cover z-0">
-                <source src="MainPageBG.mp4" type="video/mp4">
+                <source src="assets/video/MainPageBG.mp4" type="video/mp4">
                 <!-- Fallback image for slow connections -->
                 <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" 
                      alt="Environmental DNA Analysis" class="w-full h-full object-cover">
@@ -88,7 +95,7 @@
             <div class="absolute inset-0 bg-black/40 z-10"></div>
             <div class="container mx-auto px-6 relative z-20">
                 <div class="max-w-4xl mx-auto text-center text-white">
-                    <h1 class="text-5xl md:text-7xl font-bold mb-6 fade-in">
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6 fade-in font-display">
                         Decode Nature's
                         <span class="text-accent">Hidden Stories</span>
                     </h1>
@@ -96,7 +103,7 @@
                         ATLAS is a revolutionary environmental DNA analysis platform that maps biodiversity, discovers new species, and monitors ecosystem health with unprecedented precision.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in">
-                        <a href="analysis.html" class="bg-accent text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover inline-block text-center">
+                        <a href="html/analysis.html" class="bg-accent text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover inline-block text-center font-accent">
                             Start Analysis
                         </a>
                     </div>
@@ -137,22 +144,19 @@
                 <div class="max-w-6xl mx-auto">
                     <div class="grid md:grid-cols-2 gap-12 items-center">
                         <div data-aos="fade-right" data-aos-duration="800">
-                            <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6">
-                                Revolutionizing
-                                <span class="text-primary">Biodiversity Science</span>
-                            </h2>
+                            <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6 font-display">Get Started Today</h2>
                             <p class="text-lg text-gray-600 mb-6" data-aos="fade-up" data-aos-delay="200">
                                 ATLAS harnesses the power of environmental DNA (eDNA) to unlock the secrets of our planet's biodiversity. Our AI-driven platform analyzes genetic material from water, soil, and air samples to create comprehensive ecosystem maps.
                             </p>
                             <p class="text-lg text-gray-600 mb-8" data-aos="fade-up" data-aos-delay="300">
                                 From tracking endangered species to discovering new life forms, we're transforming how scientists, conservationists, and policymakers understand and protect our natural world.
                             </p>
-                            <button class="bg-primary text-white px-8 py-4 rounded-lg font-semibold btn-hover" data-aos="fade-up" data-aos-delay="400">
+                            <button class="bg-primary text-white px-8 py-4 rounded-lg font-semibold btn-hover font-accent" data-aos="fade-up" data-aos-delay="400">
                                 Learn More
                             </button>
                         </div>
                         <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
-                            <img src="mainfirst.jpg" 
+                            <img src="assets/image/mainfirst.jpg" 
                                  alt="Scientists analyzing DNA samples" 
                                  class="rounded-2xl shadow-2xl floating-image">
                         </div>
@@ -177,7 +181,7 @@
                 <div class="max-w-7xl mx-auto">
                     <!-- Section Header -->
                     <div class="text-center mb-20" data-aos="fade-up">
-                        <h2 class="text-4xl md:text-6xl font-bold text-dark mb-6">
+                        <h2 class="text-4xl md:text-6xl font-bold text-dark mb-6 font-display">
                             How It <span class="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Works</span>
                         </h2>
                         <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -219,7 +223,7 @@
                                                     <i class="fas fa-flask text-white text-lg"></i>
                                                 </div>
                                                 <div>
-                                                    <h3 class="text-2xl font-bold text-dark">Sample Collection</h3>
+                                                    <h3 class="text-2xl font-bold text-dark font-nb-boo">Sample Collection</h3>
                                                     <p class="text-primary font-medium">Environmental DNA Extraction</p>
                                                 </div>
                                             </div>
@@ -237,7 +241,7 @@
                                     <div class="timeline-media" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
                                         <div class="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500">
                                             <video autoplay muted loop playsinline preload="metadata" class="w-full h-80 object-cover">
-                                                <source src="step1.mp4" type="video/mp4">
+                                                <source src="assets/video/step1.mp4" type="video/mp4">
                                                 <!-- Fallback image for browsers that don't support video -->
                                                 <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                                                      alt="Environmental DNA Sample Collection" 
@@ -260,7 +264,7 @@
                                     <div class="timeline-media order-2 md:order-1" data-aos="fade-right" data-aos-duration="800">
                                         <div class="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500">
                                             <video autoplay muted loop playsinline preload="metadata" class="w-full h-80 object-cover">
-                                                <source src="step2.mp4" type="video/mp4">
+                                                <source src="assets/video/step2.mp4" type="video/mp4">
                                                 <!-- Fallback image for browsers that don't support video -->
                                                 <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                                                      alt="DNA Sequencing Laboratory" 
@@ -281,7 +285,7 @@
                                                     <i class="fas fa-dna text-white text-lg"></i>
                                                 </div>
                                                 <div>
-                                                    <h3 class="text-2xl font-bold text-dark">DNA Sequencing & Barcoding</h3>
+                                                    <h3 class="text-2xl font-bold text-dark font-nb-boo">DNA Sequencing & Barcoding</h3>
                                                     <p class="text-accent font-medium">Genetic Signature Analysis</p>
                                                 </div>
                                             </div>
@@ -309,7 +313,7 @@
                                                     <i class="fas fa-brain text-white text-lg"></i>
                                                 </div>
                                                 <div>
-                                                    <h3 class="text-2xl font-bold text-dark">AI Analysis with ATLAS</h3>
+                                                    <h3 class="text-2xl font-bold text-dark font-nb-boo">AI Analysis with ATLAS</h3>
                                                     <p class="text-purple-500 font-medium">Machine Learning Classification</p>
                                                 </div>
                                             </div>
@@ -327,7 +331,7 @@
                                     <div class="timeline-media" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
                                         <div class="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500">
                                             <video autoplay muted loop playsinline preload="metadata" class="w-full h-80 object-cover">
-                                                <source src="step3.mp4" type="video/mp4">
+                                                <source src="assets/video/step3.mp4" type="video/mp4">
                                                 <!-- Fallback image for browsers that don't support video -->
                                                 <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                                                      alt="AI Analysis and Machine Learning" 
@@ -350,7 +354,7 @@
                                     <div class="timeline-media order-2 md:order-1" data-aos="fade-right" data-aos-duration="800">
                                         <div class="relative rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500">
                                             <video autoplay muted loop playsinline preload="metadata" class="w-full h-80 object-cover">
-                                                <source src="step4.mp4" type="video/mp4">
+                                                <source src="assets/video/step4.mp4" type="video/mp4">
                                                 <!-- Fallback image for browsers that don't support video -->
                                                 <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                                                      alt="Data Visualization Dashboard" 
@@ -371,7 +375,7 @@
                                                     <i class="fas fa-chart-line text-white text-lg"></i>
                                                 </div>
                                                 <div>
-                                                    <h3 class="text-2xl font-bold text-dark">Data Visualization & Insights</h3>
+                                                    <h3 class="text-2xl font-bold text-dark font-nb-boo">Data Visualization & Insights</h3>
                                                     <p class="text-emerald-500 font-medium">Actionable Intelligence</p>
                                                 </div>
                                             </div>
@@ -397,7 +401,7 @@
             <div class="container mx-auto px-6">
                 <div class="max-w-6xl mx-auto">
                     <div class="text-center mb-16" data-aos="fade-up">
-                        <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6">Platform Features</h2>
+                        <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6 font-display">Platform Features</h2>
                         <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                             Comprehensive tools for environmental DNA analysis and biodiversity monitoring
                         </p>
@@ -408,8 +412,10 @@
                             <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-6">
                                 <i class="fas fa-microscope text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-3">Species Identification</h3>
-                            <p class="text-gray-600 mb-4">Advanced neural network trained on millions of sequences for precise species identification with high accuracy.</p>
+                            <h3 class="text-xl font-bold text-dark mb-3 font-accent">Species Identification</h3>
+                            <p class="text-gray-600 mb-4">
+                                Advanced neural network trained on millions of sequences for precise species identification with high accuracy.
+                            </p>
                             <div class="space-y-2 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-gray-500">Database Size:</span>
@@ -431,8 +437,10 @@
                             <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mb-6">
                                 <i class="fas fa-globe-americas text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-3">Ecosystem Mapping</h3>
-                            <p class="text-gray-600 mb-4">Create detailed biodiversity maps and track ecosystem health patterns across different habitats worldwide.</p>
+                            <h3 class="text-xl font-bold text-dark mb-3 font-accent">Ecosystem Mapping</h3>
+                            <p class="text-gray-600 mb-4">
+                                Create detailed biodiversity maps and track ecosystem health patterns across different habitats worldwide.
+                            </p>
                             <div class="space-y-2 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-gray-500">Ecosystems:</span>
@@ -454,8 +462,10 @@
                             <div class="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-600 rounded-xl flex items-center justify-center mb-6">
                                 <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-3">Invasive Species Detection</h3>
-                            <p class="text-gray-600 mb-4">Early warning system for detecting invasive species and assessing their potential ecological impact.</p>
+                            <h3 class="text-xl font-bold text-dark mb-3 font-accent">Invasive Species Detection</h3>
+                            <p class="text-gray-600 mb-4">
+                                Early warning system for detecting invasive species and assessing their potential ecological impact.
+                            </p>
                             <div class="space-y-2 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-gray-500">Invasive Species:</span>
@@ -477,8 +487,10 @@
                             <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-violet-600 rounded-xl flex items-center justify-center mb-6">
                                 <i class="fas fa-clock text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-3">Real-time Monitoring</h3>
-                            <p class="text-gray-600 mb-4">Continuous ecosystem monitoring with automated alerts for tracking biodiversity changes over time.</p>
+                            <h3 class="text-xl font-bold text-dark mb-3 font-accent">Real-time Monitoring</h3>
+                            <p class="text-gray-600 mb-4">
+                                Continuous ecosystem monitoring with automated alerts for tracking biodiversity changes over time.
+                            </p>
                             <div class="space-y-2 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-gray-500">Monitoring Sites:</span>
@@ -500,8 +512,10 @@
                             <div class="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center mb-6">
                                 <i class="fas fa-shield-alt text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-3">Conservation Planning</h3>
-                            <p class="text-gray-600 mb-4">Data-driven insights to support conservation strategies and evidence-based policy decisions.</p>
+                            <h3 class="text-xl font-bold text-dark mb-3 font-accent">Conservation Planning</h3>
+                            <p class="text-gray-600 mb-4">
+                                Data-driven insights to support conservation strategies and evidence-based policy decisions.
+                            </p>
                             <div class="space-y-2 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-gray-500">Conservation Areas:</span>
@@ -523,8 +537,10 @@
                             <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mb-6">
                                 <i class="fas fa-users text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-3">Collaborative Research</h3>
-                            <p class="text-gray-600 mb-4">Share data and collaborate with researchers worldwide through our secure, integrated platform.</p>
+                            <h3 class="text-xl font-bold text-dark mb-3 font-accent">Collaborative Research</h3>
+                            <p class="text-gray-600 mb-4">
+                                Share data and collaborate with researchers worldwide through our secure, integrated platform.
+                            </p>
                             <div class="space-y-2 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-gray-500">Active Researchers:</span>
@@ -550,7 +566,7 @@
             <div class="container mx-auto px-6">
                 <div class="max-w-6xl mx-auto">
                     <div class="text-center mb-16 fade-in">
-                        <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6">Research Impact</h2>
+                        <h2 class="text-4xl md:text-5xl font-bold text-dark mb-6 font-display">Research Impact</h2>
                         <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                             Discover how our platform is advancing scientific understanding across diverse ecosystems
                         </p>
@@ -561,7 +577,7 @@
                                  alt="Great Lakes research" 
                                  class="w-full h-48 object-cover">
                             <div class="p-8">
-                                <h3 class="text-xl font-bold text-dark mb-4">Tracking Invasive Species in the Great Lakes</h3>
+                                <h3 class="text-xl font-bold text-dark mb-4 font-accent">Urban Wildlife Tracking</h3>
                                 <p class="text-gray-600 mb-4">
                                     Our eDNA monitoring system detected Asian carp populations 6 months before traditional methods, enabling rapid response measures that prevented ecosystem disruption.
                                 </p>
@@ -576,7 +592,7 @@
                                  alt="Amazon rainforest" 
                                  class="w-full h-48 object-cover">
                             <div class="p-8">
-                                <h3 class="text-xl font-bold text-dark mb-4">Discovering Novel Microbes in the Amazon</h3>
+                                <h3 class="text-xl font-bold text-dark mb-4 font-accent">Discovering Novel Microbes in the Amazon</h3>
                                 <p class="text-gray-600 mb-4">
                                     Analysis of soil samples revealed 127 previously unknown microbial species, including potential sources for new antibiotics and biotechnology applications.
                                 </p>
@@ -591,7 +607,7 @@
                                  alt="Coral reef monitoring" 
                                  class="w-full h-48 object-cover">
                             <div class="p-8">
-                                <h3 class="text-xl font-bold text-dark mb-4">Coral Reef Biodiversity Assessment</h3>
+                                <h3 class="text-xl font-bold text-dark mb-4 font-accent">Marine Biodiversity Assessment</h3>
                                 <p class="text-gray-600 mb-4">
                                     Comprehensive eDNA surveys of coral reefs revealed hidden biodiversity patterns and identified critical areas for marine protected area designation.
                                 </p>
@@ -606,7 +622,7 @@
                                  alt="Arctic ecosystem" 
                                  class="w-full h-48 object-cover">
                             <div class="p-8">
-                                <h3 class="text-xl font-bold text-dark mb-4">Arctic Ecosystem Climate Response</h3>
+                                <h3 class="text-xl font-bold text-dark mb-4 font-accent">Forest Ecosystem Monitoring</h3>
                                 <p class="text-gray-600 mb-4">
                                     Long-term eDNA monitoring documented species migration patterns in response to climate change, informing conservation strategies for polar regions.
                                 </p>
@@ -622,45 +638,20 @@
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="py-20 hero-gradient relative">
-            <div class="absolute inset-0 bg-black/20"></div>
-            <div class="container mx-auto px-6 relative z-10">
-                <div class="max-w-4xl mx-auto text-center text-white">
-                    <h2 class="text-4xl md:text-5xl font-bold mb-6 fade-in">
-                        Ready to Explore
-                        <span class="text-accent">Hidden Biodiversity?</span>
-                    </h2>
-                    <p class="text-xl mb-8 opacity-90 fade-in">
-                        Join leading researchers, conservationists, and organizations using ATLAS to unlock the secrets of our planet's ecosystems.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12 fade-in">
-                        <button class="bg-accent text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover">
-                            Start Free Trial
-                        </button>
-                        <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover hover:bg-white hover:text-primary">
-                            View Documentation
-                        </button>
-                        <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover hover:bg-white hover:text-primary">
-                            Partner With Us
-                        </button>
+        <section id="contact" class="py-32 bg-white relative">
+            <div class="container mx-auto px-6">
+                <div class="max-w-6xl mx-auto">
+                    <!-- Main Heading -->
+                    <div class="text-center mb-20" data-aos="fade-up">
+                        <h2 class="text-5xl md:text-7xl font-bold text-dark mb-8 font-display leading-tight">
+                            Ready to transform your <span class="text-primary">research?</span>
+                        </h2>
+                        <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                            Let's create something extraordinary together.
+                        </p>
                     </div>
-                    <div class="grid md:grid-cols-3 gap-8 text-center fade-in">
-                        <div>
-                            <i class="fas fa-envelope text-3xl text-accent mb-4"></i>
-                            <h3 class="text-lg font-semibold mb-2">Email Us</h3>
-                            <p class="opacity-90">contact@atlas-edna.com</p>
-                        </div>
-                        <div>
-                            <i class="fas fa-phone text-3xl text-accent mb-4"></i>
-                            <h3 class="text-lg font-semibold mb-2">Call Us</h3>
-                            <p class="opacity-90">+1 (555) 123-4567</p>
-                        </div>
-                        <div>
-                            <i class="fas fa-map-marker-alt text-3xl text-accent mb-4"></i>
-                            <h3 class="text-lg font-semibold mb-2">Visit Us</h3>
-                            <p class="opacity-90">San Francisco, CA</p>
-                        </div>
-                    </div>
+
+                        
                 </div>
             </div>
         </section>
@@ -674,7 +665,7 @@
                     <div class="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
                         <i class="fas fa-dna text-white text-lg"></i>
                     </div>
-                    <span class="text-2xl font-bold">ATLAS</span>
+                    <span class="text-2xl font-bold font-rejouice">ATLAS</span>
                 </div>
                 <div class="flex space-x-6 mb-4 md:mb-0">
                     <a href="#" class="text-gray-400 hover:text-accent transition-colors duration-300">
@@ -697,6 +688,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

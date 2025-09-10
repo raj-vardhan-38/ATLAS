@@ -7,14 +7,20 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="../assets/image/favicon.png">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
                         'inter': ['Inter', 'sans-serif'],
+                        'rejouice': ['Rejouice-Headline', 'Inter', 'sans-serif'],
+                        'nb-boo': ['NB-BOO', 'Inter', 'sans-serif'],
+                        'display': ['Rejouice-Headline', 'Inter', 'sans-serif'],
+                        'accent': ['NB-BOO', 'Inter', 'sans-serif'],
                     },
                     colors: {
                         primary: '#0f766e',
@@ -27,18 +33,22 @@
     </script>
 </head>
 <body class="bg-gray-50 font-inter">
+    <!-- Skip Links for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#navigation" class="skip-link">Skip to navigation</a>
+    
     <!-- Header -->
     <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-200">
-        <nav class="container mx-auto px-6 py-4">
+        <nav id="navigation" class="container mx-auto px-6 py-4" role="navigation" aria-label="Main navigation">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                     <div class="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center">
                         <i class="fas fa-dna text-white text-lg"></i>
                     </div>
-                    <span class="text-2xl font-bold text-dark">ATLAS</span>
+                    <span class="text-2xl font-bold text-dark font-rejouice">ATLAS</span>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="index.html" class="text-gray-700 hover:text-accent transition-colors duration-300 flex items-center">
+                    <a href="../index.html" class="text-gray-700 hover:text-accent transition-colors duration-300 flex items-center">
                         <i class="fas fa-arrow-left mr-2"></i>
                         Back to Home
                     </a>
@@ -48,15 +58,15 @@
     </header>
 
     <!-- Main Content -->
-    <main class="pt-20">
+    <main id="main-content">
         <!-- Hero Section -->
-        <section class="py-16 bg-gradient-to-br from-primary/5 to-accent/5">
+        <section class="pt-20 pb-16 bg-gradient-to-br from-primary/5 to-accent/5">
             <div class="container mx-auto px-6">
                 <div class="max-w-4xl mx-auto text-center">
-                    <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6">
+                    <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 font-rejouice" data-aos="fade-up" data-aos-duration="800">
                         DNA Analysis <span class="text-primary">Platform</span>
                     </h1>
-                    <p class="text-xl text-gray-600 mb-8">
+                    <p class="text-xl text-gray-600 mb-8" data-aos="fade-up" data-aos-delay="200">
                         Upload your FASTA files or paste sequences to analyze environmental DNA with our advanced AI models
                     </p>
                 </div>
@@ -67,28 +77,28 @@
         <section class="py-16">
             <div class="container mx-auto px-6">
                 <div class="max-w-6xl mx-auto">
-                    <div class="bg-white rounded-3xl shadow-xl p-8 mb-12">
-                        <h2 class="text-3xl font-bold text-dark mb-8 text-center">Upload Your Data</h2>
+                    <div class="bg-white rounded-3xl shadow-xl p-8 mb-12" data-aos="fade-up" data-aos-duration="600">
+                        <h2 class="text-3xl font-bold text-dark mb-8 text-center font-rejouice">Upload Your Data</h2>
                         
                         <div class="grid md:grid-cols-2 gap-8">
                             <!-- File Upload -->
-                            <div class="space-y-6">
-                                <h3 class="text-xl font-semibold text-dark flex items-center">
+                            <div class="space-y-6" data-aos="fade-right" data-aos-delay="200">
+                                <h3 class="text-xl font-semibold text-dark flex items-center font-rejouice">
                                     <i class="fas fa-upload text-primary mr-3"></i>
                                     Upload FASTA File
                                 </h3>
                                 
-                                <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary transition-colors duration-300" id="dropZone">
+                                <div class="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary transition-colors duration-300" id="dropZone" role="button" tabindex="0" aria-label="File upload area. Drop FASTA files here or click to browse">
                                     <div class="space-y-4">
                                         <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                                            <i class="fas fa-cloud-upload-alt text-primary text-2xl"></i>
+                                            <i class="fas fa-cloud-upload-alt text-primary text-2xl" aria-hidden="true"></i>
                                         </div>
                                         <div>
                                             <p class="text-lg font-medium text-gray-700">Drop your FASTA file here</p>
                                             <p class="text-gray-500">or click to browse</p>
                                         </div>
-                                        <input type="file" id="fastaFile" accept=".fasta,.fa,.fas,.txt" class="hidden">
-                                        <button onclick="document.getElementById('fastaFile').click()" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors duration-300">
+                                        <input type="file" id="fastaFile" accept=".fasta,.fa,.fas,.txt" class="hidden" aria-label="Choose FASTA file">
+                                        <button onclick="document.getElementById('fastaFile').click()" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors duration-300" aria-label="Browse for FASTA file">
                                             Choose File
                                         </button>
                                     </div>
@@ -103,8 +113,8 @@
                             </div>
 
                             <!-- Text Input -->
-                            <div class="space-y-6">
-                                <h3 class="text-xl font-semibold text-dark flex items-center">
+                            <div class="space-y-6" data-aos="fade-left" data-aos-delay="400">
+                                <h3 class="text-xl font-semibold text-dark flex items-center font-rejouice">
                                     <i class="fas fa-edit text-accent mr-3"></i>
                                     Paste Sequences
                                 </h3>
@@ -114,6 +124,8 @@
                                         id="sequenceInput" 
                                         placeholder="Paste your FASTA sequences here...&#10;&#10;Example:&#10;>Sequence1&#10;ATCGATCGATCGATCG&#10;>Sequence2&#10;GCTAGCTAGCTAGCTA"
                                         class="w-full h-64 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent resize-none font-mono text-sm"
+                                        aria-label="FASTA sequence input area"
+                                        aria-describedby="charCount"
                                     ></textarea>
                                     
                                     <div class="flex justify-between items-center text-sm text-gray-500">
@@ -126,45 +138,46 @@
 
                         <!-- Analysis Options -->
                         <div class="mt-8 pt-8 border-t border-gray-200">
-                            <h3 class="text-xl font-semibold text-dark mb-6">Analysis Options</h3>
+                            <h3 class="text-xl font-semibold text-dark mb-6 font-rejouice">Analysis Options</h3>
                             
                             <div class="grid md:grid-cols-3 gap-6 mb-8">
                                 <div class="bg-gray-50 rounded-lg p-4">
                                     <label class="flex items-center space-x-3 cursor-pointer">
-                                        <input type="radio" name="analysisMode" value="rapid" class="text-primary focus:ring-primary" checked>
+                                        <input type="radio" name="analysisMode" value="rapid" class="text-primary focus:ring-primary" checked aria-describedby="rapid-desc">
                                         <div>
-                                            <div class="font-semibold text-dark">Rapid Analysis</div>
-                                            <div class="text-sm text-gray-600">Quick species identification</div>
+                                            <div class="font-semibold text-dark font-rejouice">Rapid Analysis</div>
+                                            <div id="rapid-desc" class="text-sm text-gray-600">Quick species identification</div>
                                         </div>
                                     </label>
                                 </div>
                                 
                                 <div class="bg-gray-50 rounded-lg p-4">
                                     <label class="flex items-center space-x-3 cursor-pointer">
-                                        <input type="radio" name="analysisMode" value="comprehensive" class="text-primary focus:ring-primary">
+                                        <input type="radio" name="analysisMode" value="comprehensive" class="text-primary focus:ring-primary" aria-describedby="comprehensive-desc">
                                         <div>
-                                            <div class="font-semibold text-dark">Comprehensive</div>
-                                            <div class="text-sm text-gray-600">Detailed biodiversity analysis</div>
+                                            <div class="font-semibold text-dark font-rejouice">Comprehensive</div>
+                                            <div id="comprehensive-desc" class="text-sm text-gray-600">Detailed biodiversity analysis</div>
                                         </div>
                                     </label>
                                 </div>
                                 
                                 <div class="bg-gray-50 rounded-lg p-4">
                                     <label class="flex items-center space-x-3 cursor-pointer">
-                                        <input type="radio" name="analysisMode" value="custom" class="text-primary focus:ring-primary">
+                                        <input type="radio" name="analysisMode" value="custom" class="text-primary focus:ring-primary" aria-describedby="custom-desc">
                                         <div>
-                                            <div class="font-semibold text-dark">Custom</div>
-                                            <div class="text-sm text-gray-600">Advanced parameters</div>
+                                            <div class="font-semibold text-dark font-rejouice">Custom</div>
+                                            <div id="custom-desc" class="text-sm text-gray-600">Advanced parameters</div>
                                         </div>
                                     </label>
                                 </div>
                             </div>
 
                             <div class="text-center">
-                                <button id="startAnalysisBtn" class="bg-gradient-to-r from-primary to-accent text-white px-12 py-4 rounded-lg font-semibold text-lg hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                                    <i class="fas fa-play mr-2"></i>
+                                <button id="startAnalysisBtn" class="bg-gradient-to-r from-primary to-accent text-white px-12 py-4 rounded-lg font-semibold text-lg hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-rejouice" disabled aria-label="Start DNA sequence analysis" aria-describedby="analysis-help">
+                                    <i class="fas fa-play mr-2" aria-hidden="true"></i>
                                     Start Analysis
                                 </button>
+                                <div id="analysis-help" class="sr-only">Upload a file or paste sequences to enable analysis</div>
                             </div>
                         </div>
                     </div>
@@ -176,8 +189,8 @@
         <section class="py-16 bg-white">
             <div class="container mx-auto px-6">
                 <div class="max-w-6xl mx-auto">
-                    <div class="text-center mb-16">
-                        <h2 class="text-4xl font-bold text-dark mb-6">Our AI Models</h2>
+                    <div class="text-center mb-16" data-aos="fade-up">
+                        <h2 class="text-4xl font-bold text-dark mb-6 font-rejouice">Our AI Models</h2>
                         <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                             Powered by five specialized AI models trained on millions of genetic sequences for accurate species identification and biodiversity analysis
                         </p>
@@ -185,7 +198,7 @@
 
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <!-- Model 1: Species Classifier -->
-                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
                             <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-6">
                                 <i class="fas fa-microscope text-white text-2xl"></i>
                             </div>
@@ -208,7 +221,7 @@
                         </div>
 
                         <!-- Model 2: Ecosystem Mapper -->
-                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
                             <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mb-6">
                                 <i class="fas fa-globe-americas text-white text-2xl"></i>
                             </div>
@@ -231,7 +244,7 @@
                         </div>
 
                         <!-- Model 3: Invasive Species Detector -->
-                        <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-6 border border-red-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-6 border border-red-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
                             <div class="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-600 rounded-xl flex items-center justify-center mb-6">
                                 <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
                             </div>
@@ -254,7 +267,7 @@
                         </div>
 
                         <!-- Model 4: Temporal Monitor -->
-                        <div class="bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl p-6 border border-purple-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl p-6 border border-purple-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
                             <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-violet-600 rounded-xl flex items-center justify-center mb-6">
                                 <i class="fas fa-clock text-white text-2xl"></i>
                             </div>
@@ -277,7 +290,7 @@
                         </div>
 
                         <!-- Model 5: Novel Species Discoverer -->
-                        <div class="bg-gradient-to-br from-cyan-50 to-teal-50 rounded-2xl p-6 border border-cyan-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 md:col-span-2 lg:col-span-1">
+                        <div class="bg-gradient-to-br from-cyan-50 to-teal-50 rounded-2xl p-6 border border-cyan-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 md:col-span-2 lg:col-span-1" data-aos="fade-up" data-aos-delay="500">
                             <div class="w-16 h-16 bg-gradient-to-r from-cyan-500 to-teal-600 rounded-xl flex items-center justify-center mb-6">
                                 <i class="fas fa-search text-white text-2xl"></i>
                             </div>
@@ -301,8 +314,8 @@
                     </div>
 
                     <!-- Model Performance Summary -->
-                    <div class="mt-16 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl p-8">
-                        <h3 class="text-2xl font-bold text-dark mb-6 text-center">Combined Model Performance</h3>
+                    <div class="mt-16 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl p-8" data-aos="fade-up" data-aos-delay="600">
+                        <h3 class="text-2xl font-bold text-dark mb-6 text-center font-rejouice">Combined Model Performance</h3>
                         <div class="grid md:grid-cols-4 gap-6 text-center">
                             <div>
                                 <div class="text-3xl font-bold text-primary mb-2">99.2%</div>
@@ -400,6 +413,15 @@
         </div>
     </footer>
 
-    <script src="analysis.js"></script>
+    <script src="../js/analysis.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true,
+            offset: 100
+        });
+    </script>
 </body>
 </html>
