@@ -50,6 +50,16 @@ body {
     transform: translateY(0);
 }
 
+.nav-link {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.nav-link:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 .nav-link.active {
     color: #06b6d4;
     border-bottom: 2px solid #06b6d4;
