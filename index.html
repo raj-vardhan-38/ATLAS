@@ -96,9 +96,9 @@
                         ATLAS is a revolutionary environmental DNA analysis platform that maps biodiversity, discovers new species, and monitors ecosystem health with unprecedented precision.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in">
-                        <button class="bg-accent text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover">
+                        <a href="analysis.html" class="bg-accent text-white px-8 py-4 rounded-lg font-semibold text-lg btn-hover inline-block text-center">
                             Start Analysis
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -402,60 +402,143 @@
                             Comprehensive tools for environmental DNA analysis and biodiversity monitoring
                         </p>
                     </div>
-                    <div class="grid md:grid-cols-3 gap-8">
-                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="100">
-                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
-                                <i class="fas fa-microscope text-white text-xl"></i>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Species Identification -->
+                        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="100">
+                            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-6">
+                                <i class="fas fa-microscope text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-4">Species Identification</h3>
-                            <p class="text-gray-600">
-                                Identify thousands of species from a single sample with our comprehensive genetic database
-                            </p>
+                            <h3 class="text-xl font-bold text-dark mb-3">Species Identification</h3>
+                            <p class="text-gray-600 mb-4">Advanced neural network trained on millions of sequences for precise species identification with high accuracy.</p>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Database Size:</span>
+                                    <span class="font-semibold">2.4M sequences</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Accuracy:</span>
+                                    <span class="font-semibold text-green-600">99.2%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Species Coverage:</span>
+                                    <span class="font-semibold">45,000+</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="200">
-                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
-                                <i class="fas fa-globe text-white text-xl"></i>
+
+                        <!-- Ecosystem Mapping -->
+                        <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="200">
+                            <div class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mb-6">
+                                <i class="fas fa-globe-americas text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-4">Ecosystem Mapping</h3>
-                            <p class="text-gray-600">
-                                Create detailed biodiversity maps and track ecosystem health over time
-                            </p>
+                            <h3 class="text-xl font-bold text-dark mb-3">Ecosystem Mapping</h3>
+                            <p class="text-gray-600 mb-4">Create detailed biodiversity maps and track ecosystem health patterns across different habitats worldwide.</p>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Ecosystems:</span>
+                                    <span class="font-semibold">156 types</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Mapping Accuracy:</span>
+                                    <span class="font-semibold text-green-600">97.8%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Coverage:</span>
+                                    <span class="font-semibold">Global</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="300">
-                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
-                                <i class="fas fa-exclamation-triangle text-white text-xl"></i>
+
+                        <!-- Invasive Species Detection -->
+                        <div class="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-6 border border-red-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="300">
+                            <div class="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-600 rounded-xl flex items-center justify-center mb-6">
+                                <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-4">Invasive Species Detection</h3>
-                            <p class="text-gray-600">
-                                Early detection and monitoring of invasive species to protect native ecosystems
-                            </p>
+                            <h3 class="text-xl font-bold text-dark mb-3">Invasive Species Detection</h3>
+                            <p class="text-gray-600 mb-4">Early warning system for detecting invasive species and assessing their potential ecological impact.</p>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Invasive Species:</span>
+                                    <span class="font-semibold">12,000+</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Detection Rate:</span>
+                                    <span class="font-semibold text-green-600">98.5%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Response Time:</span>
+                                    <span class="font-semibold">< 2 min</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="400">
-                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
-                                <i class="fas fa-clock text-white text-xl"></i>
+
+                        <!-- Real-time Monitoring -->
+                        <div class="bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl p-6 border border-purple-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="400">
+                            <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-violet-600 rounded-xl flex items-center justify-center mb-6">
+                                <i class="fas fa-clock text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-4">Real-time Monitoring</h3>
-                            <p class="text-gray-600">
-                                Continuous ecosystem monitoring with automated alerts for significant changes
-                            </p>
+                            <h3 class="text-xl font-bold text-dark mb-3">Real-time Monitoring</h3>
+                            <p class="text-gray-600 mb-4">Continuous ecosystem monitoring with automated alerts for tracking biodiversity changes over time.</p>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Monitoring Sites:</span>
+                                    <span class="font-semibold">2,500+</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Update Frequency:</span>
+                                    <span class="font-semibold text-green-600">Real-time</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Alert Response:</span>
+                                    <span class="font-semibold">< 5 min</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="500">
-                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
-                                <i class="fas fa-shield-alt text-white text-xl"></i>
+
+                        <!-- Conservation Planning -->
+                        <div class="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 border border-teal-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="500">
+                            <div class="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center mb-6">
+                                <i class="fas fa-shield-alt text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-4">Conservation Planning</h3>
-                            <p class="text-gray-600">
-                                Data-driven insights to support conservation strategies and policy decisions
-                            </p>
+                            <h3 class="text-xl font-bold text-dark mb-3">Conservation Planning</h3>
+                            <p class="text-gray-600 mb-4">Data-driven insights to support conservation strategies and evidence-based policy decisions.</p>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Conservation Areas:</span>
+                                    <span class="font-semibold">850+</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Success Rate:</span>
+                                    <span class="font-semibold text-green-600">94.3%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Policy Support:</span>
+                                    <span class="font-semibold">156 countries</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="feature-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-500" data-aos="fade-up" data-aos-delay="600">
-                            <div class="feature-icon w-16 h-16 bg-gradient-to-r from-primary to-accent rounded-lg flex items-center justify-center mb-6 transition-all duration-300">
-                                <i class="fas fa-users text-white text-xl"></i>
+
+                        <!-- Collaborative Research -->
+                        <div class="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-6 border border-indigo-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2" data-aos="fade-up" data-aos-delay="600">
+                            <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mb-6">
+                                <i class="fas fa-users text-white text-2xl"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-dark mb-4">Collaborative Research</h3>
-                            <p class="text-gray-600">
-                                Share data and collaborate with researchers worldwide through our secure platform
-                            </p>
+                            <h3 class="text-xl font-bold text-dark mb-3">Collaborative Research</h3>
+                            <p class="text-gray-600 mb-4">Share data and collaborate with researchers worldwide through our secure, integrated platform.</p>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Active Researchers:</span>
+                                    <span class="font-semibold">15,000+</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Institutions:</span>
+                                    <span class="font-semibold text-green-600">500+</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-500">Publications:</span>
+                                    <span class="font-semibold">2,400+</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
