@@ -170,18 +170,17 @@ class TaxonClassifier:
             # Get token from environment
             hf_token = os.getenv('HUGGINGFACE_TOKEN')
             if not hf_token:
-                print(f"    - ERROR: No HUGGINGFACE_TOKEN found in environment variables")
-                print(f"    - Please set HUGGINGFACE_TOKEN in your deployment platform")
-                raise Exception("Missing HUGGINGFACE_TOKEN environment variable")
+                print(f"    - WARNING: No HUGGINGFACE_TOKEN found in environment variables")
+                print(f"    - Attempting download without authentication...")
             else:
                 print(f"    - Using HUGGINGFACE_TOKEN from environment (length: {len(hf_token)})")
             
-            # Force download by not using local_dir caching
+            # Try download with authentication
             downloaded_path = hf_hub_download(
                 repo_id=MODEL_REPO,
                 filename=filename,
                 token=hf_token,
-                force_download=True  # This forces fresh download
+                force_download=False  # Allow caching for faster loads
             )
             print(f"    - Successfully downloaded {filename} from HuggingFace")
             return downloaded_path
@@ -189,7 +188,20 @@ class TaxonClassifier:
         except Exception as hf_error:
             print(f"    - HuggingFace download failed: {hf_error}")
             
-            # Fallback to local file if it exists
+            # Try without token as fallback
+            try:
+                print(f"    - Retrying download without token...")
+                downloaded_path = hf_hub_download(
+                    repo_id=MODEL_REPO,
+                    filename=filename,
+                    force_download=False
+                )
+                print(f"    - Successfully downloaded {filename} without token")
+                return downloaded_path
+            except Exception as no_token_error:
+                print(f"    - Download without token also failed: {no_token_error}")
+            
+            # Final fallback to local file if it exists
             if local_path.exists():
                 print(f"    - Using local cached {filename}")
                 return str(local_path)
