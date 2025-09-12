@@ -1,4 +1,5 @@
-Flask
+fastapi
+uvicorn[standard]
 pandas
 numpy
 biopython
@@ -8,4 +9,3 @@ gensim
 hdbscan
 tqdm
 huggingface-hub
-gunicorn
