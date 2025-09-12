@@ -1,4 +1,5 @@
-# backend/server.py
+# ATLAS FastAPI Backend
+# To run: uvicorn app:app --host 0.0.0.0 --port $PORT
 import os
 import tempfile
 import shutil
@@ -59,9 +60,8 @@ async def analyze(file: UploadFile = None, data: str = Form(None)):
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
-# === Allow both running with 'python server.py' for local dev
-# and using 'uvicorn server:app' in production ===
+# === Run uvicorn server when executed with 'python app.py' ===
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))
-    uvicorn.run("app:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port=port)
