@@ -5,6 +5,8 @@ import tempfile
 import shutil
 from fastapi import FastAPI, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from predict import run_analysis
 
 app = FastAPI(title="ATLAS API")
@@ -32,10 +34,13 @@ app.add_middleware(
 def health():
     return {"status": "ok"}
 
-# === Root ===
+# === Mount static files and serve frontend ===
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# === Serve frontend at root ===
 @app.get("/")
-def root():
-    return {"status": "Backend is running!"}
+def serve_frontend():
+    return FileResponse("static/index.html")
 
 # === Run analysis endpoint ===
 @app.post("/run_analysis")
