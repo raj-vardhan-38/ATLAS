@@ -167,7 +167,14 @@ class TaxonClassifier:
         print(f"    - Downloading {filename} from Hugging Face...")
         
         try:
+            # Get token from environment
             hf_token = os.getenv('HUGGINGFACE_TOKEN')
+            if not hf_token:
+                print(f"    - ERROR: No HUGGINGFACE_TOKEN found in environment variables")
+                print(f"    - Please set HUGGINGFACE_TOKEN in your deployment platform")
+                raise Exception("Missing HUGGINGFACE_TOKEN environment variable")
+            else:
+                print(f"    - Using HUGGINGFACE_TOKEN from environment (length: {len(hf_token)})")
             
             # Force download by not using local_dir caching
             downloaded_path = hf_hub_download(
