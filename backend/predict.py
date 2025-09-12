@@ -163,39 +163,33 @@ class TaxonClassifier:
         """Downloads a model file from Hugging Face Hub if it doesn't exist locally."""
         local_path = MODELS_DIR / filename
         
-        # If file already exists locally, return the path
-        if local_path.exists():
-            print(f"    - Using cached {filename}")
-            return str(local_path)
+        # Force download from HuggingFace (ignore local cache)
+        print(f"    - Downloading {filename} from Hugging Face...")
         
         try:
-            print(f"    - Downloading {filename} from Hugging Face...")
-            # Get HF token from environment variable if available
             hf_token = os.getenv('HUGGINGFACE_TOKEN')
             
-            # Try downloading with token first, then without
-            try:
-                downloaded_path = hf_hub_download(
-                    repo_id=MODEL_REPO,
-                    filename=filename,
-                    cache_dir=str(MODELS_DIR.parent / ".cache"),
-                    local_dir=str(MODELS_DIR),
-                    token=hf_token
-                )
-            except Exception as token_error:
-                print(f"    - Token download failed, trying without token: {token_error}")
-                # Fallback: try without token
-                downloaded_path = hf_hub_download(
-                    repo_id=MODEL_REPO,
-                    filename=filename,
-                    cache_dir=str(MODELS_DIR.parent / ".cache"),
-                    local_dir=str(MODELS_DIR)
-                )
-            print(f"    - Successfully downloaded {filename}")
+            # Force download by not using local_dir caching
+            downloaded_path = hf_hub_download(
+                repo_id=MODEL_REPO,
+                filename=filename,
+                token=hf_token,
+                force_download=True  # This forces fresh download
+            )
+            print(f"    - Successfully downloaded {filename} from HuggingFace")
             return downloaded_path
-        except Exception as e:
-            print(f"    - Failed to download {filename}: {e}")
-            return None
+            
+        except Exception as hf_error:
+            print(f"    - HuggingFace download failed: {hf_error}")
+            
+            # Fallback to local file if it exists
+            if local_path.exists():
+                print(f"    - Using local cached {filename}")
+                return str(local_path)
+            else:
+                print(f"    - No local file found for {filename}")
+                return None
+        
 
     def predict(self, sequence, confidence_threshold=0.8):
         """Predicts the taxon for a single sequence."""
