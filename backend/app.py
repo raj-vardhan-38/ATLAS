@@ -61,7 +61,7 @@ def index():
 @app.route('/analyze')
 def analyze():
     """Analysis upload page."""
-    return render_template('index.html')
+    return send_from_directory('../frontend', 'index.html')
 
 # Additional static file routes for frontend assets
 @app.route('/css/<path:filename>')

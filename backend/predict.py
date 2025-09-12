@@ -440,7 +440,10 @@ def run_analysis(input_fasta_path):
     classifiers = [clf for clf in potential_classifiers if clf.is_loaded]
     
     if not classifiers:
-        return {"error": "No trained models found. Please ensure models are available."}
+        print("ERROR: No models loaded successfully!")
+        for clf in potential_classifiers:
+            print(f"  - {clf.name}: {'✓ Loaded' if clf.is_loaded else '✗ Failed'}")
+        return {"error": "No trained models found. Check deployment logs for HuggingFace download errors."}
     
     print(f"  - Successfully loaded {len(classifiers)} models: {[clf.name for clf in classifiers]}")
     if len(classifiers) < len(potential_classifiers):
