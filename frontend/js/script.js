@@ -1,5 +1,5 @@
 // Loading Screen Management
-const API_URL = "http://atlassystem.live/run_analysis";
+const API_URL = "https://atlas-ca71.onrender.com/run_analysis";
 window.addEventListener('load', function() {
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {

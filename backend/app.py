@@ -12,8 +12,9 @@ app = FastAPI(title="ATLAS API")
 # === CORS ===
 # Replace these with your real frontend URL(s) in production:
 origins = [
-    "https://www.atlassystem.live",       # your Cloudflare domain (example)
-    "https://atlas-ca71.onrender.com",    # your Render default domain (example)
+    "https://www.atlassystem.live",       # your Cloudflare domain
+    "http://atlassystem.live",            # HTTP version
+    "https://atlas-ca71.onrender.com",    # your Render default domain
     "http://localhost:3000",
     "http://localhost:8000",
 ]
