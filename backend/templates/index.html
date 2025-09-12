@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+
+{% block title %}Upload FASTA File - ATLAS{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-inter">
+    <!-- Header removed - using base.html header -->
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-4">
+        <!-- Upload Section -->
+        <div class="max-w-4xl mx-auto mb-16" data-aos="fade-up" data-aos-delay="200">
+            <div class="text-center mb-12">
+                <h2 class="font-rejouice text-4xl md:text-5xl font-bold gradient-text mb-4">
+                    DNA Analysis Platform
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto font-inter">
+                    Upload your FASTA files to analyze environmental DNA with our advanced AI models
+                </p>
+            </div>
+
+            <!-- Upload Form -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 card-hover">
+                <form method="POST" action="{{ url_for('upload_file') }}" enctype="multipart/form-data">
+                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-12 text-center hover:border-blue-400 transition-all duration-300 bg-gray-50/50 hover:bg-blue-50/50">
+                        <div class="mb-6 floating-animation">
+                            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-2 font-rejouice">Upload Your FASTA File</h3>
+                        <p class="text-gray-600 mb-6 font-inter">
+                            Choose a file or drag and drop your FASTA file here
+                        </p>
+                        
+                        <label for="file" class="cursor-pointer">
+                            <span class="inline-block px-8 py-3 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors font-medium mb-4">
+                                Choose a FASTA file
+                            </span>
+                        </label>
+                        <input type="file" name="file" id="file" class="hidden" accept=".fasta,.fa,.fas,.fna" required>
+                        
+                        <p class="text-sm text-gray-500 mb-8">
+                            Supported formats: .fasta, .fa, .fas, .fna (Max 50MB)
+                        </p>
+                        
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 text-white py-4 px-8 rounded-xl font-semibold text-lg btn-hover shadow-lg">
+                            Start Analysis
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+            
+        <!-- Our AI Models Section -->
+        <div id="ai-models" class="mb-16" data-aos="fade-up" data-aos-delay="400">
+            <div class="text-center mb-12">
+                <h2 class="font-rejouice text-4xl font-bold gradient-text mb-4">Our AI Models</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto font-inter">
+                    Powered by five specialized AI models trained on millions of genetic sequences for accurate species identification and biodiversity analysis
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-6 mb-8">
+                <!-- 16S Bacteria Classifier -->
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100 card-hover" data-aos="fade-up" data-aos-delay="500">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 font-nb-boo">16S Bacteria Classifier</h3>
+                            <p class="text-blue-600 font-medium text-sm">Prokaryotic Identification</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6 font-inter">
+                        Our primary model for prokaryotic identification, trained on the 16S rRNA gene. Essential for microbial diversity.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Status:</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Complete</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Accuracy:</span>
+                            <span class="font-bold text-green-600 counter" data-target="90">90.57%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Explorer (Unsupervised) -->
+                <div class="bg-gradient-to-br from-cyan-50 to-blue-50 rounded-2xl p-6 border border-cyan-100 card-hover" data-aos="fade-up" data-aos-delay="600">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 font-nb-boo">Explorer (Unsupervised)</h3>
+                            <p class="text-cyan-600 font-medium text-sm">Novel Taxa Discovery</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6 font-inter">
+                        Our cutting-edge pipeline for discovering potentially new species from sequences that do not match existing models.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Status:</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Complete</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Method:</span>
+                            <span class="font-bold text-cyan-600">Doc2Vec + HDBSCAN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 18S Eukaryote Classifier -->
+                <div class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-6 border border-emerald-100 card-hover" data-aos="fade-up" data-aos-delay="700">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-600 rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 font-nb-boo">18S Eukaryote Classifier</h3>
+                            <p class="text-emerald-600 font-medium text-sm">Eukaryotic Identification</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6 font-inter">
+                        Specialized model for eukaryotic organism identification using 18S rRNA sequences. Covers protists, fungi, and more.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Status:</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Complete</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Accuracy:</span>
+                            <span class="font-bold text-emerald-600 counter" data-target="87">87.23%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-6 mb-8">
+                <!-- COI Animal Classifier -->
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-100 card-hover" data-aos="fade-up" data-aos-delay="800">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.01M15 10h1.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 font-nb-boo">COI Animal Classifier</h3>
+                            <p class="text-purple-600 font-medium text-sm">Animal DNA Barcoding</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6 font-inter">
+                        DNA barcoding model using cytochrome c oxidase subunit I (COI) for animal species identification and biodiversity assessment.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Status:</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Complete</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Accuracy:</span>
+                            <span class="font-bold text-purple-600 counter" data-target="85">85.91%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ITS Fungi Classifier -->
+                <div class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-6 border border-orange-100 card-hover" data-aos="fade-up" data-aos-delay="900">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-amber-600 rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900 font-nb-boo">ITS Fungi Classifier</h3>
+                            <p class="text-orange-600 font-medium text-sm">Fungal Identification</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6 font-inter">
+                        Internal transcribed spacer (ITS) based model for fungal species identification, crucial for ecosystem analysis.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Status:</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Complete</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">Accuracy:</span>
+                            <span class="font-bold text-orange-600 counter" data-target="88">88.45%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Combined Model Performance -->
+            <div class="bg-gradient-to-r from-gray-900 to-blue-900 rounded-2xl p-8 text-white" data-aos="fade-up" data-aos-delay="1000">
+                <h3 class="font-rejouice text-2xl font-bold mb-6 text-center">Combined Model Performance</h3>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="space-y-2">
+                        <div class="text-4xl font-bold gradient-text counter" data-target="88">88.04%</div>
+                        <p class="text-gray-300 text-sm font-inter">Average Accuracy</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-4xl font-bold text-cyan-400 counter" data-target="45">~45s</div>
+                        <p class="text-gray-300 text-sm font-inter">Analysis Time</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-4xl font-bold text-purple-400 counter" data-target="5">5</div>
+                        <p class="text-gray-300 text-sm font-inter">AI Models</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="grid md:grid-cols-3 gap-8 mb-16" data-aos="fade-up" data-aos-delay="1100">
+            <div class="text-center p-6 card-hover">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 floating-animation">
+                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-rejouice text-xl font-bold text-gray-900 mb-2">AI Classification</h3>
+                <p class="text-gray-600 font-inter">Advanced machine learning models identify known organisms from your sequences</p>
+            </div>
+            
+            <div class="text-center p-6 card-hover">
+                <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4 floating-animation" style="animation-delay: 1s;">
+                    <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-rejouice text-xl font-bold text-gray-900 mb-2">Novel Discovery</h3>
+                <p class="text-gray-600 font-inter">Explorer pipeline discovers potential new taxa through clustering and BLAST analysis</p>
+            </div>
+            
+            <div class="text-center p-6 card-hover">
+                <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 floating-animation" style="animation-delay: 2s;">
+                    <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-rejouice text-xl font-bold text-gray-900 mb-2">Rich Visualization</h3>
+                <p class="text-gray-600 font-inter">Interactive charts and detailed reports help you understand your biodiversity data</p>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+{% block scripts %}
+<script>
+// File upload drag and drop functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('file');
+    const dropZone = fileInput.closest('.border-dashed');
+
+    if (dropZone && fileInput) {
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        // Highlight drop zone when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        // Handle dropped files
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        // Update label when file is selected
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                updateFileLabel(e.target.files[0].name);
+            }
+        });
+    }
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    function highlight(e) {
+        dropZone.classList.add('border-blue-400', 'bg-blue-50');
+    }
+
+    function unhighlight(e) {
+        dropZone.classList.remove('border-blue-400', 'bg-blue-50');
+    }
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        
+        if (files.length > 0) {
+            fileInput.files = files;
+            updateFileLabel(files[0].name);
+        }
+    }
+
+    function updateFileLabel(filename) {
+        const label = dropZone.querySelector('label span');
+        if (label) {
+            label.textContent = filename;
+        }
+    }
+});
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,2022 @@
+{% extends "base.html" %}
+
+{% block title %}Analysis Results - ATLAS{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-inter">
+    <!-- Header removed - using base.html header -->
+
+    <main class="container mx-auto px-4 py-4">
+        <!-- Hero Section -->
+        <div class="text-center mb-16" data-aos="fade-up" data-aos-delay="200">
+            <h2 class="font-rejouice text-4xl md:text-5xl font-bold gradient-text mb-4">
+                Analysis Results
+            </h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto font-inter">
+                Real-time biodiversity analysis powered by ATLAS AI
+            </p>
+        </div>
+
+        <!-- Status Section -->
+        <div id="status-section" class="mb-16" data-aos="fade-up" data-aos-delay="400">
+            <div class="bg-white rounded-2xl shadow-xl p-12 border border-gray-100 text-center card-hover">
+                <div class="mb-8">
+                    <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-6 floating-animation">
+                        <div class="loading-spinner w-8 h-8"></div>
+                    </div>
+                </div>
+                <h3 class="font-rejouice text-2xl font-bold text-gray-900 mb-4">Processing Your FASTA File</h3>
+                <p class="text-gray-600 font-inter mb-8">Please wait while we analyze your sequences with our AI models...</p>
+                <div class="max-w-md mx-auto">
+                    <div class="bg-gray-200 rounded-full h-3 overflow-hidden">
+                        <div class="bg-gradient-to-r from-blue-500 to-teal-500 h-3 rounded-full transition-all duration-1000 pulse-animation" style="width: 60%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-3 font-inter">Analyzing sequences... This may take a few moments</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section (Hidden initially) -->
+        <div id="results-section" class="hidden">
+            <!-- Summary Cards -->
+            <div class="grid md:grid-cols-4 gap-6 mb-16" data-aos="fade-up" data-aos-delay="600">
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 text-center card-hover border border-blue-100">
+                    <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="text-3xl font-nb-boo font-bold gradient-text mb-2 counter" id="total-sequences" data-target="0">0</div>
+                    <div class="text-sm text-gray-600 font-inter">Total Sequences</div>
+                </div>
+                <div class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-6 text-center card-hover border border-emerald-100">
+                    <div class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-green-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <div class="text-3xl font-nb-boo font-bold text-emerald-600 mb-2 counter" id="classified-count" data-target="0">0</div>
+                    <div class="text-sm text-gray-600 font-inter">Classified</div>
+                </div>
+                <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 text-center card-hover border border-amber-100">
+                    <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="text-3xl font-nb-boo font-bold text-amber-600 mb-2 counter" id="unclassified-count" data-target="0">0</div>
+                    <div class="text-sm text-gray-600 font-inter">Unclassified</div>
+                </div>
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 text-center card-hover border border-purple-100">
+                    <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <div class="text-3xl font-nb-boo font-bold text-purple-600 mb-2 counter" id="classification-rate" data-target="0">0%</div>
+                    <div class="text-sm text-gray-600 font-inter">Classification Rate</div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="grid lg:grid-cols-3 gap-6 mb-16" data-aos="fade-up" data-aos-delay="800">
+                <!-- Pie Chart -->
+                <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-rejouice text-xl font-bold text-gray-900">Species Distribution</h3>
+                    </div>
+                    <div class="relative h-64">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Doughnut Chart -->
+                <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-r from-emerald-500 to-green-600 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-rejouice text-xl font-bold text-gray-900">Classification Overview</h3>
+                    </div>
+                    <div class="relative h-64">
+                        <canvas id="doughnutChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Bar Chart -->
+                <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center mr-3">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-rejouice text-xl font-bold text-gray-900">Organism Counts</h3>
+                                <p class="text-sm text-gray-500">(Top 15 + Others, Horizontal)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 text-xs text-gray-500">
+                            <i class="fas fa-search-plus"></i>
+                            <span>Scroll to zoom</span>
+                        </div>
+                    </div>
+                    <div class="relative h-80">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Charts Section -->
+            <div class="grid lg:grid-cols-2 gap-6 mb-16" data-aos="fade-up" data-aos-delay="1000">
+                <!-- Radar Chart with Legend -->
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-chart-line text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800">Diversity Profile</h3>
+                        <span class="ml-2 text-sm text-gray-500">(Top 15 Species)</span>
+                    </div>
+                    <div class="flex gap-6">
+                        <div class="flex-1 h-80">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                        <div class="w-80">
+                            <div class="bg-gray-50 rounded-lg p-4 h-80">
+                                <h4 class="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+                                    <i class="fas fa-list-ol mr-2"></i>
+                                    Species Ranking
+                                </h4>
+                                <div id="radarLegend" class="overflow-y-auto h-64 space-y-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Area Chart -->
+                <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-orange-500 to-amber-600 rounded-lg flex items-center justify-center mr-3">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-rejouice text-xl font-bold text-gray-900">Cumulative Distribution</h3>
+                                <p class="text-sm text-gray-500">(Top 20 + Others, Log Scale)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 text-xs text-gray-500">
+                            <i class="fas fa-mouse-pointer"></i>
+                            <span>Scroll to zoom • Drag to pan</span>
+                        </div>
+                    </div>
+                    <div class="relative h-80">
+                        <canvas id="areaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Visualizations -->
+            <div class="grid lg:grid-cols-2 gap-6 mb-16" data-aos="fade-up" data-aos-delay="1200">
+                <!-- Horizontal Bar Chart -->
+                <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8l4 4m0-8l4 4-4 4m6 0v12m0 0l4-4-4-4m0 8l-4-4 4-4"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-rejouice text-xl font-bold text-gray-900">Top Species Ranking</h3>
+                    </div>
+                    <div class="relative h-80">
+                        <canvas id="horizontalBarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Polar Area Chart -->
+                <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-600 rounded-lg flex items-center justify-center mr-3">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-rejouice text-xl font-bold text-gray-900">Biodiversity Spectrum</h3>
+                                <p class="text-sm text-gray-500">(Top 8 Species with Filters)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <label class="text-sm font-medium text-gray-600">Group by:</label>
+                            <select id="taxonomyFilter" class="px-3 py-1 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500">
+                                <option value="all">All Groups</option>
+                                <option value="bacteria">Bacteria</option>
+                                <option value="archaea">Archaea</option>
+                                <option value="eukaryota">Eukaryota</option>
+                                <option value="unclassified">Unclassified</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="relative h-80">
+                        <canvas id="polarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stacked Charts Section -->
+            <div class="grid lg:grid-cols-2 gap-6 mb-16" data-aos="fade-up" data-aos-delay="1400">
+                <!-- Stacked Bar Chart -->
+                <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-rejouice text-xl font-bold text-gray-900">Classification vs Unclassified</h3>
+                    </div>
+                    <div class="relative h-80">
+                        <canvas id="stackedBarChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Species Abundance Horizontal Bar Chart -->
+                <div class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 card-hover">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gradient-to-r from-lime-500 to-green-600 rounded-lg flex items-center justify-center mr-3">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-rejouice text-xl font-bold text-gray-900">Species Abundance Trend</h3>
+                                <p class="text-sm text-gray-500">(Top Species with Percentages)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <label class="text-sm font-medium text-gray-600">Show:</label>
+                            <select id="abundanceFilter" class="px-3 py-1 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                                <option value="10">Top 10</option>
+                                <option value="20">Top 20</option>
+                                <option value="all">All Species</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="relative h-80">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="bg-white rounded-2xl shadow-xl p-6 mb-16 border border-gray-100 card-hover" data-aos="fade-up" data-aos-delay="1600">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-gradient-to-r from-slate-500 to-gray-600 rounded-lg flex items-center justify-center mr-3">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-rejouice text-2xl font-bold text-gray-900">Detailed Results</h3>
+                    </div>
+                    <a id="download-btn" href="#" class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-6 py-3 rounded-xl font-semibold btn-hover shadow-lg">
+                        <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Download Report
+                    </a>
+                </div>
+                
+                <div class="overflow-x-auto rounded-xl border border-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gradient-to-r from-gray-50 to-blue-50">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider font-inter">
+                                    Organism
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider font-inter">
+                                    Count
+                                </th>
+                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider font-inter">
+                                    Percentage
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-table" class="bg-white divide-y divide-gray-100">
+                            <!-- Table rows will be populated by JavaScript -->
+                        </tbody>
+                        <tbody id="hidden-results" class="bg-white divide-y divide-gray-100 hidden">
+                            <!-- Hidden rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Read More Button -->
+                <div id="read-more-container" class="mt-6 text-center hidden">
+                    <button id="readMoreBtn" class="px-6 py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-xl text-sm font-medium hover:from-green-600 hover:to-teal-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center space-x-3 mx-auto">
+                        <span id="readMoreText">Show More Results</span>
+                        <svg id="readMoreIcon" class="w-5 h-5 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Explorer Results -->
+            <div id="explorer-section" class="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 card-hover" data-aos="fade-up" data-aos-delay="1800">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-r from-violet-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-rejouice text-2xl font-bold text-gray-900">Novel Taxa Discovery</h3>
+                </div>
+                <div id="explorer-content" class="text-gray-600 font-inter leading-relaxed">
+                    <!-- Explorer results will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Error Section (Hidden initially) -->
+        <div id="error-section" class="hidden" data-aos="fade-up" data-aos-delay="400">
+            <div class="bg-white rounded-2xl shadow-xl p-12 border border-red-100 text-center card-hover">
+                <div class="mb-8">
+                    <div class="w-20 h-20 bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h3 class="font-rejouice text-2xl font-bold text-gray-900 mb-4">Analysis Failed</h3>
+                <p id="error-message" class="text-gray-600 font-inter mb-8"></p>
+                <div>
+                    <a href="{{ url_for('index') }}" class="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-8 py-3 rounded-xl font-semibold btn-hover shadow-lg">
+                        <svg class="w-5 h-5 mr-2 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                        Try Again
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const analysisId = '{{ analysis_id }}';
+let charts = {};
+
+// Poll for results
+function checkStatus() {
+    fetch(`/api/status/${analysisId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'completed') {
+                showResults(data);
+            } else if (data.status === 'error') {
+                showError(data.error);
+            } else {
+                setTimeout(checkStatus, 2000);
+            }
+        })
+        .catch(error => {
+            console.error('Error checking status:', error);
+            showError('Failed to check analysis status');
+        });
+}
+
+function showResults(data) {
+    document.getElementById('status-section').classList.add('hidden');
+    document.getElementById('results-section').classList.remove('hidden');
+    
+    // Update summary cards with counter animation
+    const totalSeqElement = document.getElementById('total-sequences');
+    const classifiedElement = document.getElementById('classified-count');
+    const unclassifiedElement = document.getElementById('unclassified-count');
+    const classificationRateElement = document.getElementById('classification-rate');
+    
+    // Set data-target attributes for counter animation
+    totalSeqElement.setAttribute('data-target', data.total_sequences);
+    classifiedElement.setAttribute('data-target', data.classified);
+    unclassifiedElement.setAttribute('data-target', data.unclassified);
+    
+    const classificationRate = Math.round((data.classified / data.total_sequences) * 100);
+    classificationRateElement.setAttribute('data-target', classificationRate);
+    
+    // Trigger counter animations
+    setTimeout(() => {
+        animateCounter(totalSeqElement, data.total_sequences);
+        animateCounter(classifiedElement, data.classified);
+        animateCounter(unclassifiedElement, data.unclassified);
+        animateCounter(classificationRateElement, classificationRate, '%');
+    }, 500);
+    
+    document.getElementById('download-btn').href = `/download/${analysisId}`;
+    
+    loadChartData();
+    populateTable(data.classified_results, data.total_sequences);
+    showExplorerResults(data.explorer_report);
+}
+
+function showError(errorMessage) {
+    document.getElementById('status-section').classList.add('hidden');
+    document.getElementById('error-section').classList.remove('hidden');
+    document.getElementById('error-message').textContent = errorMessage;
+}
+
+function loadChartData() {
+    fetch(`/api/chart-data/${analysisId}`)
+        .then(response => response.json())
+        .then(data => {
+            createAllCharts(data);
+        })
+        .catch(error => {
+            console.error('Error loading chart data:', error);
+        });
+}
+
+function createAllCharts(data) {
+    const colors = generateColors(data.pie_chart.labels.length);
+    
+    // 1. Pie Chart
+    createPieChart(data.pie_chart, colors);
+    
+    // 2. Doughnut Chart
+    createDoughnutChart(data.pie_chart, colors);
+    
+    // 3. Bar Chart
+    createBarChart(data.bar_chart, colors);
+    
+    // 4. Radar Chart
+    createRadarChart(data.bar_chart, colors);
+    
+    // 5. Area Chart
+    createAreaChart(data.bar_chart, colors);
+    
+    // 6. Horizontal Bar Chart
+    createHorizontalBarChart(data.bar_chart, colors);
+    
+    // 7. Polar Area Chart
+    createPolarChart(data.pie_chart, colors);
+    
+    // 8. Stacked Bar Chart
+    createStackedBarChart(data.summary, colors);
+    
+    // 9. Line Chart
+    createLineChart(data.bar_chart, colors);
+}
+
+function createPieChart(data, colors) {
+    // Process data for top-N display with "Others" grouping
+    const combinedData = data.labels.map((label, index) => ({
+        label: label,
+        value: data.data[index]
+    }));
+    
+    // Sort by value in descending order and take top 8
+    const sortedData = combinedData.sort((a, b) => b.value - a.value);
+    const topN = 8;
+    const topSpecies = sortedData.slice(0, topN);
+    const othersSum = sortedData.slice(topN).reduce((sum, item) => sum + item.value, 0);
+    
+    // Add "Others" category if there are remaining species
+    if (othersSum > 0) {
+        topSpecies.push({ label: 'Others', value: othersSum });
+    }
+    
+    const processedLabels = topSpecies.map(item => item.label);
+    const processedData = topSpecies.map(item => item.value);
+    const totalSpecies = data.labels.length;
+    const totalCount = processedData.reduce((a, b) => a + b, 0);
+    
+    // Use consistent colors
+    const consistentColors = getConsistentColors(processedLabels);
+    
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    charts.pie = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: processedLabels,
+            datasets: [{
+                data: processedData,
+                backgroundColor: consistentColors,
+                borderWidth: 3,
+                borderColor: '#ffffff',
+                hoverBorderWidth: 5,
+                hoverBorderColor: '#3b82f6',
+                hoverOffset: 15
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                    left: 20,
+                    right: 20
+                }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 2000,
+                easing: 'easeInOutQuart'
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { 
+                        padding: 15, 
+                        usePointStyle: true, 
+                        font: { size: 11, weight: '500' },
+                        color: '#374151',
+                        generateLabels: function(chart) {
+                            const data = chart.data;
+                            if (data.labels.length && data.datasets.length) {
+                                return data.labels.map((label, i) => {
+                                    const value = data.datasets[0].data[i];
+                                    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    const displayLabel = label.length > 20 ? label.substring(0, 20) + '...' : label;
+                                    return {
+                                        text: `${displayLabel} (${percentage}%)`,
+                                        fillStyle: data.datasets[0].backgroundColor[i],
+                                        strokeStyle: data.datasets[0].borderColor,
+                                        lineWidth: data.datasets[0].borderWidth,
+                                        hidden: false,
+                                        index: i
+                                    };
+                                });
+                            }
+                            return [];
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#3b82f6',
+                    borderWidth: 2,
+                    cornerRadius: 12,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].label;
+                        },
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.parsed / total) * 100).toFixed(1);
+                            return `Count: ${context.parsed.toLocaleString()} (${percentage}%)`;
+                        },
+                        afterLabel: function(context) {
+                            if (context.label === 'Others') {
+                                const othersCount = sortedData.length - topN;
+                                return `Represents ${othersCount} other species`;
+                            }
+                            return '';
+                        }
+                    }
+                }
+            },
+            hover: {
+                animationDuration: 300
+            }
+        },
+        plugins: [{
+            id: 'centerText',
+            afterDraw: function(chart) {
+                const ctx = chart.ctx;
+                const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+                const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
+                
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                // Add background circle for better text visibility
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 45, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Total species count
+                ctx.font = 'bold 22px Inter';
+                ctx.fillStyle = '#1f2937';
+                ctx.fillText(totalSpecies.toLocaleString(), centerX, centerY - 8);
+                
+                // Label
+                ctx.font = '11px Inter';
+                ctx.fillStyle = '#6b7280';
+                ctx.fillText('Total Species', centerX, centerY + 12);
+                
+                ctx.restore();
+            }
+        }]
+    });
+}
+
+function createDoughnutChart(data, colors) {
+    // Filter to show only major categories (top 6)
+    const combinedData = data.labels.map((label, index) => ({
+        label: label,
+        value: data.data[index]
+    }));
+    
+    const sortedData = combinedData.sort((a, b) => b.value - a.value);
+    const majorCategories = sortedData.slice(0, 6);
+    const minorSum = sortedData.slice(6).reduce((sum, item) => sum + item.value, 0);
+    
+    if (minorSum > 0) {
+        majorCategories.push({ label: 'Other Categories', value: minorSum });
+    }
+    
+    const processedLabels = majorCategories.map(item => item.label);
+    const processedData = majorCategories.map(item => item.value);
+    const consistentColors = getConsistentColors(processedLabels);
+    const totalCount = processedData.reduce((a, b) => a + b, 0);
+    
+    const ctx = document.getElementById('doughnutChart').getContext('2d');
+    charts.doughnut = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: processedLabels,
+            datasets: [{
+                data: processedData,
+                backgroundColor: consistentColors,
+                borderWidth: 3,
+                borderColor: '#ffffff',
+                hoverBorderWidth: 5,
+                hoverBorderColor: '#3b82f6',
+                hoverOffset: 12
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20,
+                    left: 20,
+                    right: 20
+                }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 2000,
+                easing: 'easeInOutQuart'
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { 
+                        padding: 15, 
+                        usePointStyle: true, 
+                        font: { size: 11, weight: '500' },
+                        color: '#374151',
+                        generateLabels: function(chart) {
+                            const data = chart.data;
+                            if (data.labels.length && data.datasets.length) {
+                                return data.labels.map((label, i) => {
+                                    const value = data.datasets[0].data[i];
+                                    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    const displayLabel = label.length > 18 ? label.substring(0, 18) + '...' : label;
+                                    return {
+                                        text: `${displayLabel} (${percentage}%)`,
+                                        fillStyle: data.datasets[0].backgroundColor[i],
+                                        strokeStyle: data.datasets[0].borderColor,
+                                        lineWidth: data.datasets[0].borderWidth,
+                                        hidden: false,
+                                        index: i
+                                    };
+                                });
+                            }
+                            return [];
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#3b82f6',
+                    borderWidth: 2,
+                    cornerRadius: 12,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].label;
+                        },
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.parsed / total) * 100).toFixed(1);
+                            return `Count: ${context.parsed.toLocaleString()} (${percentage}%)`;
+                        },
+                        afterLabel: function(context) {
+                            if (context.label === 'Other Categories') {
+                                const othersCount = sortedData.length - 6;
+                                return `Includes ${othersCount} minor categories`;
+                            }
+                            return `Classification category`;
+                        }
+                    }
+                }
+            },
+            hover: {
+                animationDuration: 300
+            }
+        },
+        plugins: [{
+            id: 'centerText',
+            afterDraw: function(chart) {
+                const ctx = chart.ctx;
+                const centerX = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+                const centerY = chart.chartArea.top + (chart.chartArea.bottom - chart.chartArea.top) / 2;
+                
+                ctx.save();
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                // Add background circle for better text visibility
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 40, 0, 2 * Math.PI);
+                ctx.fill();
+                
+                // Total count
+                ctx.font = 'bold 18px Inter';
+                ctx.fillStyle = '#1f2937';
+                ctx.fillText(totalCount.toLocaleString(), centerX, centerY - 6);
+                
+                // Label
+                ctx.font = '10px Inter';
+                ctx.fillStyle = '#6b7280';
+                ctx.fillText('Classifications', centerX, centerY + 10);
+                
+                ctx.restore();
+            }
+        }]
+    });
+}
+
+function createBarChart(data, colors) {
+    // Process data for top-N horizontal bar chart
+    const combinedData = data.labels.map((label, index) => ({
+        label: label,
+        value: data.data[index]
+    }));
+    
+    // Sort by value in descending order and take top 15
+    const sortedData = combinedData.sort((a, b) => b.value - a.value);
+    const topN = 15;
+    const topSpecies = sortedData.slice(0, topN);
+    const othersSum = sortedData.slice(topN).reduce((sum, item) => sum + item.value, 0);
+    
+    if (othersSum > 0) {
+        topSpecies.push({ label: 'Others', value: othersSum });
+    }
+    
+    const processedLabels = topSpecies.map(item => 
+        item.label.length > 25 ? item.label.substring(0, 25) + '...' : item.label
+    );
+    const processedData = topSpecies.map(item => item.value);
+    const consistentColors = getConsistentColors(topSpecies.map(item => item.label));
+    
+    const ctx = document.getElementById('barChart').getContext('2d');
+    charts.bar = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: processedLabels,
+            datasets: [{
+                label: 'Count',
+                data: processedData,
+                backgroundColor: consistentColors.map(c => c + '80'),
+                borderColor: consistentColors,
+                borderWidth: 2,
+                borderRadius: 6,
+                borderSkipped: false,
+                hoverBackgroundColor: consistentColors,
+                hoverBorderColor: '#3b82f6',
+                hoverBorderWidth: 3
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Make it horizontal
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 2000,
+                easing: 'easeInOutQuart',
+                delay: (context) => context.dataIndex * 100
+            },
+            scales: {
+                x: { 
+                    type: 'logarithmic',
+                    beginAtZero: false,
+                    min: Math.max(1, Math.min(...processedData.filter(v => v > 0))),
+                    ticks: { 
+                        font: { size: 11, weight: '500' },
+                        color: '#374151',
+                        callback: function(value, index, values) {
+                            if (value >= 1000) {
+                                return (value / 1000).toFixed(0) + 'K';
+                            } else if (value >= 100) {
+                                return value.toFixed(0);
+                            } else {
+                                return value.toFixed(0);
+                            }
+                        }
+                    },
+                    grid: {
+                        color: '#e5e7eb',
+                        lineWidth: 1
+                    },
+                    title: {
+                        display: true,
+                        text: 'Count (Log Scale)',
+                        font: { size: 12, weight: '600' },
+                        color: '#374151'
+                    }
+                },
+                y: {
+                    ticks: {
+                        font: { size: 10, weight: '500' },
+                        color: '#374151'
+                    },
+                    grid: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Species (Top 15 + Others)',
+                        font: { size: 12, weight: '600' },
+                        color: '#374151'
+                    }
+                }
+            },
+            plugins: { 
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#3b82f6',
+                    borderWidth: 2,
+                    cornerRadius: 12,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                        title: function(context) {
+                            const originalLabel = topSpecies[context[0].dataIndex].label;
+                            return originalLabel;
+                        },
+                        label: function(context) {
+                            const percentage = ((context.parsed.x / processedData.reduce((a, b) => a + b, 0)) * 100).toFixed(1);
+                            return `Count: ${context.parsed.x.toLocaleString()} (${percentage}%)`;
+                        },
+                        afterLabel: function(context) {
+                            const index = context.dataIndex;
+                            if (topSpecies[index].label === 'Others') {
+                                const othersCount = sortedData.length - topN;
+                                return `Represents ${othersCount} other species`;
+                            }
+                            return `Rank: #${index + 1}`;
+                        }
+                    }
+                },
+                zoom: {
+                    zoom: {
+                        wheel: {
+                            enabled: true,
+                        },
+                        pinch: {
+                            enabled: true
+                        },
+                        mode: 'x',
+                    },
+                    pan: {
+                        enabled: true,
+                        mode: 'x',
+                    }
+                }
+            },
+            hover: {
+                animationDuration: 300
+            }
+        }
+    });
+}
+
+function createRadarChart(data, colors) {
+    // Filter and sort data to show only top 15 species by diversity score
+    const combinedData = data.labels.map((label, index) => ({
+        label: label,
+        value: data.data[index],
+        fullName: label
+    }));
+    
+    // Sort by value (diversity score) in descending order and take top 15
+    const topSpecies = combinedData
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 15);
+    
+    const filteredLabels = topSpecies.map(item => ''); // Hide labels by default
+    const filteredData = topSpecies.map(item => item.value);
+    const fullNames = topSpecies.map(item => item.fullName);
+    
+    const ctx = document.getElementById('radarChart').getContext('2d');
+    charts.radar = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: filteredLabels,
+            datasets: [{
+                label: 'Diversity Score',
+                data: filteredData,
+                backgroundColor: colors[0] + '20',
+                borderColor: colors[0],
+                borderWidth: 3,
+                pointBackgroundColor: colors[0],
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 3,
+                pointRadius: 8,
+                pointHoverRadius: 12,
+                pointHoverBackgroundColor: '#3b82f6',
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBorderWidth: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 2000,
+                easing: 'easeInOutQuart'
+            },
+            interaction: {
+                intersect: false,
+                mode: 'point'
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: Math.max(...filteredData) * 1.1,
+                    ticks: { 
+                        stepSize: Math.ceil(Math.max(...filteredData) / 5),
+                        font: { size: 12, weight: '500' },
+                        color: '#374151',
+                        backdropColor: 'rgba(255, 255, 255, 0.9)',
+                        backdropPadding: 6
+                    },
+                    pointLabels: {
+                        display: false // Hide point labels completely
+                    },
+                    grid: {
+                        color: '#e5e7eb',
+                        lineWidth: 1
+                    },
+                    angleLines: {
+                        color: '#d1d5db',
+                        lineWidth: 1
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#3b82f6',
+                    borderWidth: 2,
+                    cornerRadius: 12,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                        title: function(context) {
+                            const index = context[0].dataIndex;
+                            return fullNames[index];
+                        },
+                        label: function(context) {
+                            return `Diversity Score: ${context.parsed.r}`;
+                        },
+                        afterLabel: function(context) {
+                            const index = context.dataIndex;
+                            const rank = index + 1;
+                            return `Rank: #${rank} of ${topSpecies.length}`;
+                        }
+                    }
+                }
+            },
+            hover: {
+                animationDuration: 300
+            }
+        }
+    });
+    
+    // Create scrollable legend
+    createRadarLegend(topSpecies, colors[0]);
+}
+
+function createAreaChart(data, colors) {
+    // Process data for top-N display with "Others" grouping
+    const combinedData = data.labels.map((label, index) => ({
+        label: label,
+        value: data.data[index]
+    }));
+    
+    // Sort by value in descending order and take top 20
+    const sortedData = combinedData.sort((a, b) => b.value - a.value);
+    const topN = 20;
+    const topSpecies = sortedData.slice(0, topN);
+    const othersSum = sortedData.slice(topN).reduce((sum, item) => sum + item.value, 0);
+    
+    // Add "Others" category if there are remaining species
+    if (othersSum > 0) {
+        topSpecies.push({ label: 'Others', value: othersSum });
+    }
+    
+    const processedLabels = topSpecies.map(item => item.label);
+    const processedData = topSpecies.map(item => item.value);
+    
+    // Create color gradient based on values
+    const maxValue = Math.max(...processedData);
+    const minValue = Math.min(...processedData);
+    const gradientColors = processedData.map(value => {
+        const intensity = (value - minValue) / (maxValue - minValue);
+        const r = Math.floor(59 + intensity * (37 - 59)); // From blue to darker blue
+        const g = Math.floor(130 + intensity * (99 - 130));
+        const b = Math.floor(246 + intensity * (235 - 246));
+        return `rgb(${r}, ${g}, ${b})`;
+    });
+    
+    const ctx = document.getElementById('areaChart').getContext('2d');
+    charts.area = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: processedLabels,
+            datasets: [{
+                label: 'Cumulative Count',
+                data: processedData,
+                backgroundColor: gradientColors.map(color => color.replace('rgb', 'rgba').replace(')', ', 0.3)')),
+                borderColor: gradientColors,
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: gradientColors,
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                pointHoverBackgroundColor: '#3b82f6',
+                pointHoverBorderColor: '#ffffff',
+                pointHoverBorderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 2000,
+                easing: 'easeInOutQuart'
+            },
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
+            scales: {
+                y: { 
+                    type: 'logarithmic',
+                    beginAtZero: false,
+                    min: Math.max(1, Math.min(...processedData.filter(v => v > 0))),
+                    ticks: {
+                        font: { size: 12, weight: '500' },
+                        color: '#374151',
+                        callback: function(value, index, values) {
+                            // Format logarithmic scale labels
+                            if (value >= 1000) {
+                                return (value / 1000).toFixed(0) + 'K';
+                            } else if (value >= 100) {
+                                return value.toFixed(0);
+                            } else if (value >= 10) {
+                                return value.toFixed(0);
+                            } else {
+                                return value.toFixed(1);
+                            }
+                        }
+                    },
+                    grid: {
+                        color: '#e5e7eb',
+                        lineWidth: 1
+                    },
+                    title: {
+                        display: true,
+                        text: 'Count (Log Scale)',
+                        font: { size: 13, weight: '600' },
+                        color: '#374151'
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: { size: 10, weight: '500' },
+                        color: '#374151',
+                        maxRotation: 45,
+                        minRotation: 45,
+                        callback: function(value, index, values) {
+                            const label = this.getLabelForValue(value);
+                            return label.length > 15 ? label.substring(0, 15) + '...' : label;
+                        }
+                    },
+                    grid: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Species (Top 20 + Others)',
+                        font: { size: 13, weight: '600' },
+                        color: '#374151'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#3b82f6',
+                    borderWidth: 2,
+                    cornerRadius: 12,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].label;
+                        },
+                        label: function(context) {
+                            const value = context.parsed.y;
+                            const percentage = ((value / processedData.reduce((a, b) => a + b, 0)) * 100).toFixed(1);
+                            return `Count: ${value.toLocaleString()} (${percentage}%)`;
+                        },
+                        afterLabel: function(context) {
+                            const index = context.dataIndex;
+                            if (processedLabels[index] === 'Others') {
+                                const othersCount = sortedData.length - topN;
+                                return `Represents ${othersCount} other species`;
+                            }
+                            return `Rank: #${index + 1}`;
+                        }
+                    }
+                },
+                zoom: {
+                    zoom: {
+                        wheel: {
+                            enabled: true,
+                        },
+                        pinch: {
+                            enabled: true
+                        },
+                        mode: 'xy',
+                    },
+                    pan: {
+                        enabled: true,
+                        mode: 'xy',
+                    }
+                }
+            },
+            hover: {
+                animationDuration: 300
+            }
+        }
+    });
+}
+
+function createHorizontalBarChart(data, colors) {
+    const ctx = document.getElementById('horizontalBarChart').getContext('2d');
+    charts.horizontalBar = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.labels,
+            datasets: [{
+                label: 'Count',
+                data: data.data,
+                backgroundColor: colors,
+                borderColor: colors.map(c => c + 'CC'),
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            indexAxis: 'y',
+            scales: {
+                x: { beginAtZero: true, ticks: { stepSize: 1 } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+}
+
+let currentTaxonomyFilter = 'all';
+let originalPolarData = null;
+
+// Taxonomic classification mapping
+const taxonomyGroups = {
+    bacteria: ['uncultured bacterium', 'Streptococcus', 'Bacillus', 'Microbacterium', 'Pseudomonas', 'Escherichia-Shigella', 'Klebsiella', 'Enterobacter', 'Pseudoalteromonas', 'Nocardiopsis', 'Thermobifida'],
+    archaea: ['uncultured archaeon', 'Allorhizobium-Neorhizobium-Pararhizobium-Rhizobium'],
+    eukaryota: ['Choanozoa', 'Saccharomonospora', 'Bradyrhizobium', 'Porticoccus', 'Blautia', 'Alkanindiges'],
+    unclassified: ['None', 'Mycoplasma', '[Eubacterium] nodatum group', 'Pantoea', 'Prevotella', 'Xylella']
+};
+
+function getColorByTaxonomy(label) {
+    const taxonomyColors = {
+        bacteria: '#3b82f6',    // Blue palette
+        archaea: '#10b981',     // Green palette  
+        eukaryota: '#f59e0b',   // Orange palette
+        unclassified: '#6b7280' // Gray palette
+    };
+    
+    for (const [group, species] of Object.entries(taxonomyGroups)) {
+        if (species.some(s => label.toLowerCase().includes(s.toLowerCase()))) {
+            return taxonomyColors[group];
+        }
+    }
+    return taxonomyColors.unclassified;
+}
+
+function filterDataByTaxonomy(data, filter) {
+    if (filter === 'all') {
+        return data;
+    }
+    
+    const relevantSpecies = taxonomyGroups[filter] || [];
+    const filteredIndices = [];
+    const filteredLabels = [];
+    const filteredData = [];
+    
+    data.labels.forEach((label, index) => {
+        if (relevantSpecies.some(s => label.toLowerCase().includes(s.toLowerCase()))) {
+            filteredIndices.push(index);
+            filteredLabels.push(label);
+            filteredData.push(data.data[index]);
+        }
+    });
+    
+    return {
+        labels: filteredLabels,
+        data: filteredData
+    };
+}
+
+function createPolarChart(data, colors) {
+    // Store original data for filtering
+    originalPolarData = data;
+    
+    // Process data for top species and apply filter
+    const combinedData = data.labels.map((label, index) => ({
+        label: label,
+        value: data.data[index]
+    }));
+    
+    // Sort by value and take top 8
+    const sortedData = combinedData.sort((a, b) => b.value - a.value);
+    const topSpecies = sortedData.slice(0, 8);
+    
+    const processedData = {
+        labels: topSpecies.map(item => item.label),
+        data: topSpecies.map(item => item.value)
+    };
+    
+    // Apply taxonomy filter
+    const filteredData = filterDataByTaxonomy(processedData, currentTaxonomyFilter);
+    
+    // Generate colors based on taxonomy
+    const taxonomyColors = filteredData.labels.map(label => getColorByTaxonomy(label));
+    const consistentColors = getConsistentColors(filteredData.labels);
+    
+    const ctx = document.getElementById('polarChart').getContext('2d');
+    charts.polar = new Chart(ctx, {
+        type: 'polarArea',
+        data: {
+            labels: filteredData.labels,
+            datasets: [{
+                data: filteredData.data,
+                backgroundColor: taxonomyColors.map(c => c + '60'),
+                borderColor: taxonomyColors,
+                borderWidth: 3,
+                hoverBackgroundColor: taxonomyColors.map(c => c + '80'),
+                hoverBorderWidth: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 2000,
+                easing: 'easeInOutQuart'
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { 
+                        padding: 12, 
+                        usePointStyle: true, 
+                        font: { size: 10, weight: '500' },
+                        color: '#374151',
+                        generateLabels: function(chart) {
+                            const data = chart.data;
+                            if (data.labels.length && data.datasets.length) {
+                                return data.labels.map((label, i) => {
+                                    const value = data.datasets[0].data[i];
+                                    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    const displayLabel = label.length > 15 ? label.substring(0, 15) + '...' : label;
+                                    return {
+                                        text: `${displayLabel} (${percentage}%)`,
+                                        fillStyle: data.datasets[0].backgroundColor[i],
+                                        strokeStyle: data.datasets[0].borderColor[i],
+                                        lineWidth: data.datasets[0].borderWidth,
+                                        hidden: false,
+                                        index: i
+                                    };
+                                });
+                            }
+                            return [];
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#3b82f6',
+                    borderWidth: 2,
+                    cornerRadius: 12,
+                    padding: 12,
+                    displayColors: true,
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].label;
+                        },
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.parsed.r / total) * 100).toFixed(1);
+                            return `Count: ${context.parsed.r.toLocaleString()} (${percentage}%)`;
+                        },
+                        afterLabel: function(context) {
+                            const label = context.label;
+                            for (const [group, species] of Object.entries(taxonomyGroups)) {
+                                if (species.some(s => label.toLowerCase().includes(s.toLowerCase()))) {
+                                    return `Taxonomy: ${group.charAt(0).toUpperCase() + group.slice(1)}`;
+                                }
+                            }
+                            return 'Taxonomy: Unclassified';
+                        }
+                    }
+                }
+            },
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    grid: {
+                        color: '#e5e7eb'
+                    },
+                    pointLabels: {
+                        font: {
+                            size: 10,
+                            weight: '500'
+                        },
+                        color: '#374151'
+                    },
+                    ticks: {
+                        font: {
+                            size: 9
+                        },
+                        color: '#6b7280',
+                        backdropColor: 'rgba(255, 255, 255, 0.8)'
+                    }
+                }
+            }
+        }
+    });
+}
+
+function updatePolarChartFilter(newFilter) {
+    if (!originalPolarData) return;
+    
+    currentTaxonomyFilter = newFilter;
+    
+    // Destroy existing chart
+    if (charts.polar) {
+        charts.polar.destroy();
+    }
+    
+    // Recreate with new filter
+    createPolarChart(originalPolarData, null);
+}
+
+function createStackedBarChart(summary, colors) {
+    const ctx = document.getElementById('stackedBarChart').getContext('2d');
+    charts.stacked = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Analysis Results'],
+            datasets: [
+                {
+                    label: 'Classified',
+                    data: [summary.classified],
+                    backgroundColor: colors[0],
+                    borderColor: colors[0],
+                    borderWidth: 1
+                },
+                {
+                    label: 'Unclassified',
+                    data: [summary.unclassified],
+                    backgroundColor: colors[1],
+                    borderColor: colors[1],
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: { stacked: true },
+                y: { stacked: true, beginAtZero: true, ticks: { stepSize: 1 } }
+            }
+        }
+    });
+}
+
+function createLineChart(data, colors) {
+    const ctx = document.getElementById('lineChart').getContext('2d');
+    
+    // Process data for horizontal bar chart with Top N filtering
+    const processedData = processAbundanceData(data, 10); // Default to top 10
+    
+    charts.line = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: processedData.labels,
+            datasets: [{
+                label: 'Abundance',
+                data: processedData.data,
+                backgroundColor: processedData.colors,
+                borderColor: processedData.borderColors,
+                borderWidth: 1,
+                borderRadius: 8,
+                borderSkipped: false,
+                barThickness: processedData.barThickness,
+                maxBarThickness: processedData.maxBarThickness
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Horizontal bars
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    borderColor: '#3b82f6',
+                    borderWidth: 2,
+                    cornerRadius: 12,
+                    padding: 12,
+                    callbacks: {
+                        title: function(context) {
+                            return context[0].label;
+                        },
+                        label: function(context) {
+                            const value = context.parsed.x;
+                            const total = processedData.totalCount;
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return [
+                                `Abundance: ${value.toLocaleString()}`,
+                                `Percentage: ${percentage}%`
+                            ];
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return value.toLocaleString();
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        maxRotation: 0,
+                        font: {
+                            size: function(context) {
+                                const label = context.tick.label;
+                                // Smaller font for "Others" bar
+                                return label && label.includes('Others') ? 10 : 11;
+                            }
+                        },
+                        callback: function(value, index) {
+                            const label = this.getLabelForValue(value);
+                            // Truncate long species names
+                            return label.length > 25 ? label.substring(0, 22) + '...' : label;
+                        }
+                    },
+                    categoryPercentage: processedData.categoryPercentage,
+                    barPercentage: processedData.barPercentage
+                }
+            },
+            layout: {
+                padding: {
+                    right: 80 // Space for percentage labels
+                }
+            },
+            animation: {
+                duration: 1000,
+                easing: 'easeOutQuart'
+            }
+        },
+        plugins: [{
+            id: 'percentageLabels',
+            afterDatasetsDraw: function(chart) {
+                const ctx = chart.ctx;
+                const dataset = chart.data.datasets[0];
+                const total = processedData.totalCount;
+                
+                chart.data.datasets.forEach((dataset, datasetIndex) => {
+                    const meta = chart.getDatasetMeta(datasetIndex);
+                    meta.data.forEach((bar, index) => {
+                        const value = dataset.data[index];
+                        const percentage = ((value / total) * 100).toFixed(1);
+                        
+                        ctx.fillStyle = '#374151';
+                        ctx.font = 'bold 11px Arial';
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'middle';
+                        
+                        const x = bar.x + 5;
+                        const y = bar.y;
+                        
+                        ctx.fillText(`${percentage}%`, x, y);
+                    });
+                });
+            }
+        }]
+    });
+    
+    // Add filter event listener
+    setupAbundanceFilter(data, colors);
+}
+
+function processAbundanceData(data, topN) {
+    // Sort data by abundance (descending)
+    const sortedData = data.labels.map((label, index) => ({
+        label: label,
+        value: data.data[index]
+    })).sort((a, b) => b.value - a.value);
+    
+    let processedLabels = [];
+    let processedData = [];
+    let processedColors = [];
+    let processedBorderColors = [];
+    let totalCount = sortedData.reduce((sum, item) => sum + item.value, 0);
+    
+    if (topN === 'all') {
+        // Show all species - put Others at bottom if it exists
+        const regularItems = sortedData.filter(item => !item.label.includes('Others'));
+        const othersItems = sortedData.filter(item => item.label.includes('Others'));
+        
+        processedLabels = [...regularItems.map(item => item.label), ...othersItems.map(item => item.label)];
+        processedData = [...regularItems.map(item => item.value), ...othersItems.map(item => item.value)];
+        processedColors = [
+            ...regularItems.map((_, index) => 
+                index === 0 ? '#059669' : // Top species in bold emerald
+                index < 5 ? '#0d9488' : // Top 5 in teal
+                index < 10 ? '#14b8a6' : // Next 5 in lighter teal
+                '#5eead4' // Rest in very light teal
+            ),
+            ...othersItems.map(() => '#d1d5db') // Others in light neutral gray
+        ];
+    } else {
+        // Show top N + Others at bottom
+        const topItems = sortedData.slice(0, topN);
+        const othersItems = sortedData.slice(topN);
+        const othersSum = othersItems.reduce((sum, item) => sum + item.value, 0);
+        
+        processedLabels = topItems.map(item => item.label);
+        processedData = topItems.map(item => item.value);
+        
+        if (othersSum > 0) {
+            processedLabels.push(`Others (${othersItems.length} species)`);
+            processedData.push(othersSum);
+        }
+        
+        processedColors = processedData.map((_, index) => {
+            if (index === processedData.length - 1 && othersSum > 0) {
+                return '#d1d5db'; // Others in light neutral gray
+            }
+            return index === 0 ? '#059669' : // Top species in bold emerald
+                   index < 3 ? '#0d9488' : // Top 3 in teal
+                   index < 6 ? '#14b8a6' : // Next 3 in lighter teal
+                   '#5eead4'; // Rest in very light teal
+        });
+        
+        // Reverse arrays to put Others at bottom visually
+        processedLabels.reverse();
+        processedData.reverse();
+        processedColors.reverse();
+    }
+    
+    processedBorderColors = processedColors.map(color => color);
+    
+    // Calculate dynamic bar thickness based on number of items
+    const itemCount = processedLabels.length;
+    let barThickness, maxBarThickness, categoryPercentage, barPercentage;
+    
+    if (itemCount <= 10) {
+        // Top 10: Thick bars with good spacing
+        barThickness = 25;
+        maxBarThickness = 30;
+        categoryPercentage = 0.9;
+        barPercentage = 0.85;
+    } else if (itemCount <= 20) {
+        // Top 20: Medium bars
+        barThickness = 18;
+        maxBarThickness = 22;
+        categoryPercentage = 0.95;
+        barPercentage = 0.9;
+    } else if (itemCount <= 50) {
+        // Up to 50: Thin bars
+        barThickness = 12;
+        maxBarThickness = 15;
+        categoryPercentage = 0.98;
+        barPercentage = 0.95;
+    } else {
+        // Many items: Very thin bars
+        barThickness = 8;
+        maxBarThickness = 10;
+        categoryPercentage = 0.99;
+        barPercentage = 0.98;
+    }
+    
+    return {
+        labels: processedLabels,
+        data: processedData,
+        colors: processedColors,
+        borderColors: processedBorderColors,
+        totalCount: totalCount,
+        barThickness: barThickness,
+        maxBarThickness: maxBarThickness,
+        categoryPercentage: categoryPercentage,
+        barPercentage: barPercentage
+    };
+}
+
+function setupAbundanceFilter(originalData, colors) {
+    const filterSelect = document.getElementById('abundanceFilter');
+    if (filterSelect) {
+        filterSelect.addEventListener('change', function() {
+            const selectedValue = this.value === 'all' ? 'all' : parseInt(this.value);
+            updateAbundanceChart(originalData, colors, selectedValue);
+        });
+    }
+}
+
+function updateAbundanceChart(data, colors, topN) {
+    if (charts.line) {
+        const processedData = processAbundanceData(data, topN);
+        
+        charts.line.data.labels = processedData.labels;
+        charts.line.data.datasets[0].data = processedData.data;
+        charts.line.data.datasets[0].backgroundColor = processedData.colors;
+        charts.line.data.datasets[0].borderColor = processedData.borderColors;
+        charts.line.data.datasets[0].barThickness = processedData.barThickness;
+        charts.line.data.datasets[0].maxBarThickness = processedData.maxBarThickness;
+        
+        // Update scale options for dynamic spacing
+        charts.line.options.scales.y.categoryPercentage = processedData.categoryPercentage;
+        charts.line.options.scales.y.barPercentage = processedData.barPercentage;
+        
+        // Update the plugin data
+        charts.line.options.plugins.tooltip.callbacks.label = function(context) {
+            const value = context.parsed.x;
+            const total = processedData.totalCount;
+            const percentage = ((value / total) * 100).toFixed(1);
+            return [
+                `Abundance: ${value.toLocaleString()}`,
+                `Percentage: ${percentage}%`
+            ];
+        };
+        
+        charts.line.update('active');
+    }
+}
+
+function populateTable(classifiedResults, totalSequences) {
+    const tbody = document.getElementById('results-table');
+    const hiddenTbody = document.getElementById('hidden-results');
+    const readMoreContainer = document.getElementById('read-more-container');
+    
+    tbody.innerHTML = '';
+    hiddenTbody.innerHTML = '';
+    
+    const sortedResults = Object.entries(classifiedResults)
+        .sort(([,a], [,b]) => b - a);
+    
+    const topResults = sortedResults.slice(0, 10);
+    const remainingResults = sortedResults.slice(10);
+    
+    // Populate top 10 results
+    topResults.forEach(([organism, count]) => {
+        const percentage = ((count / totalSequences) * 100).toFixed(1);
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-gray-50 transition-colors duration-200';
+        row.innerHTML = `
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                ${organism}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                ${count.toLocaleString()}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                ${percentage}%
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
+    
+    // Populate hidden results
+    if (remainingResults.length > 0) {
+        remainingResults.forEach(([organism, count]) => {
+            const percentage = ((count / totalSequences) * 100).toFixed(1);
+            const row = document.createElement('tr');
+            row.className = 'hover:bg-gray-50 transition-colors duration-200';
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    ${organism}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ${count.toLocaleString()}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ${percentage}%
+                </td>
+            `;
+            hiddenTbody.appendChild(row);
+        });
+        
+        // Show read more button
+        readMoreContainer.classList.remove('hidden');
+        setupReadMoreButton(remainingResults.length);
+    } else {
+        readMoreContainer.classList.add('hidden');
+    }
+}
+
+function setupReadMoreButton(remainingCount) {
+    const readMoreBtn = document.getElementById('readMoreBtn');
+    const readMoreText = document.getElementById('readMoreText');
+    const readMoreIcon = document.getElementById('readMoreIcon');
+    const hiddenTbody = document.getElementById('hidden-results');
+    
+    let isExpanded = false;
+    
+    // Update button text with count
+    readMoreText.textContent = `Show ${remainingCount} More Results`;
+    
+    readMoreBtn.onclick = function() {
+        if (!isExpanded) {
+            // Expand - instant show with simple fade
+            hiddenTbody.style.transition = 'opacity 0.2s ease-out';
+            hiddenTbody.classList.remove('hidden');
+            
+            // Reset all rows to visible state instantly
+            const rows = hiddenTbody.querySelectorAll('tr');
+            rows.forEach(row => {
+                row.style.transition = 'none';
+                row.classList.remove('opacity-0', 'translate-y-2');
+                row.classList.add('opacity-100', 'translate-y-0');
+            });
+            
+            // Update button instantly
+            readMoreText.textContent = 'Show Less';
+            readMoreIcon.style.transform = 'rotate(180deg)';
+            readMoreBtn.classList.add('from-red-500', 'to-pink-600', 'hover:from-red-600', 'hover:to-pink-700');
+            readMoreBtn.classList.remove('from-green-500', 'to-teal-600', 'hover:from-green-600', 'hover:to-teal-700');
+            
+            isExpanded = true;
+        } else {
+            // Collapse - instant hide
+            hiddenTbody.style.transition = 'none';
+            hiddenTbody.classList.add('hidden');
+            
+            // Update button instantly
+            readMoreText.textContent = `Show ${remainingCount} More Results`;
+            readMoreIcon.style.transform = 'rotate(0deg)';
+            readMoreBtn.classList.remove('from-red-500', 'to-pink-600', 'hover:from-red-600', 'hover:to-pink-700');
+            readMoreBtn.classList.add('from-green-500', 'to-teal-600', 'hover:from-green-600', 'hover:to-teal-700');
+            
+            isExpanded = false;
+        }
+    };
+}
+
+function showExplorerResults(explorerReport) {
+    const content = document.getElementById('explorer-content');
+    
+    if (explorerReport && explorerReport.trim() !== 'No unclassified sequences to explore.') {
+        const formattedReport = explorerReport
+            .replace(/Cluster ID: (\d+)/g, '<h4 class="font-semibold text-dark mt-4 mb-2">Cluster ID: $1</h4>')
+            .replace(/- Size: (.+)/g, '<p class="ml-4 text-sm"><strong>Size:</strong> $1</p>')
+            .replace(/- Representative Sequence ID: (.+)/g, '<p class="ml-4 text-sm"><strong>Representative:</strong> $1</p>')
+            .replace(/- BLAST Hypothesis: (.+)/g, '<p class="ml-4 text-sm"><strong>BLAST Hypothesis:</strong> $1</p>')
+            .replace(/\n/g, '<br>');
+        
+        content.innerHTML = formattedReport;
+    } else {
+        content.innerHTML = '<p class="text-gray-500 italic">No unclassified sequences found for novel taxa discovery.</p>';
+    }
+}
+
+function generateColors(count) {
+    const colors = [
+        '#2563eb', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6',
+        '#f97316', '#06b6d4', '#84cc16', '#ec4899', '#6366f1',
+        '#f43f5e', '#14b8a6', '#f97316', '#8b5cf6', '#06b6d4'
+    ];
+    
+    const result = [];
+    for (let i = 0; i < count; i++) {
+        result.push(colors[i % colors.length]);
+    }
+    return result;
+}
+
+// Counter animation function
+function animateCounter(element, target, suffix = '') {
+    const duration = 2000; // 2 seconds
+    const start = 0;
+    const increment = target / (duration / 16); // 60 FPS
+    let current = start;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(current) + suffix;
+    }, 16);
+}
+
+// Create scrollable legend for radar chart
+function createRadarLegend(topSpecies, primaryColor) {
+    const legendContainer = document.getElementById('radarLegend');
+    if (!legendContainer) return;
+    
+    legendContainer.innerHTML = '';
+    
+    topSpecies.forEach((species, index) => {
+        const legendItem = document.createElement('div');
+        legendItem.className = 'flex items-center justify-between p-2 rounded-lg hover:bg-white transition-colors cursor-pointer border border-gray-200';
+        
+        // Group species by taxonomic rank (simplified grouping)
+        const taxonomicGroup = getSimplifiedTaxonomicGroup(species.fullName);
+        
+        legendItem.innerHTML = `
+            <div class="flex items-center flex-1">
+                <div class="w-3 h-3 rounded-full mr-3" style="background-color: ${primaryColor}"></div>
+                <div class="flex-1 min-w-0">
+                    <div class="text-xs font-medium text-gray-900 truncate" title="${species.fullName}">
+                        ${species.fullName.length > 25 ? species.fullName.substring(0, 25) + '...' : species.fullName}
+                    </div>
+                    <div class="text-xs text-gray-500">${taxonomicGroup}</div>
+                </div>
+            </div>
+            <div class="text-right ml-2">
+                <div class="text-xs font-semibold text-gray-900">#${index + 1}</div>
+                <div class="text-xs text-gray-600">${species.value.toFixed(1)}</div>
+            </div>
+        `;
+        
+        // Add hover effect to highlight corresponding point on chart
+        legendItem.addEventListener('mouseenter', () => {
+            if (charts.radar) {
+                charts.radar.setActiveElements([{
+                    datasetIndex: 0,
+                    index: index
+                }]);
+                charts.radar.update('none');
+            }
+        });
+        
+        legendItem.addEventListener('mouseleave', () => {
+            if (charts.radar) {
+                charts.radar.setActiveElements([]);
+                charts.radar.update('none');
+            }
+        });
+        
+        legendContainer.appendChild(legendItem);
+    });
+}
+
+// Simplified taxonomic grouping function
+function getSimplifiedTaxonomicGroup(speciesName) {
+    // Simple heuristic to group species by common patterns
+    const name = speciesName.toLowerCase();
+    
+    if (name.includes('candidatus') || name.includes('candidate')) {
+        return 'Candidate Taxa';
+    } else if (name.includes('bacterium') || name.includes('bacteria')) {
+        return 'Bacteria';
+    } else if (name.includes('archaeon') || name.includes('archaea')) {
+        return 'Archaea';
+    } else if (name.includes('virus') || name.includes('phage')) {
+        return 'Viral';
+    } else if (name.includes('fungus') || name.includes('fungi')) {
+        return 'Fungi';
+    } else if (name.includes('protozoa') || name.includes('protist')) {
+        return 'Protists';
+    } else {
+        // Try to extract genus (first word)
+        const words = speciesName.split(/[\s-_]+/);
+        if (words.length > 1) {
+            return `${words[0]} group`;
+        }
+        return 'Other Taxa';
+    }
+}
+
+// Global color mapping for consistency across charts
+const globalColorMap = new Map();
+const baseColors = [
+    '#2563eb', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6',
+    '#f97316', '#06b6d4', '#84cc16', '#ec4899', '#6366f1',
+    '#f43f5e', '#14b8a6', '#f97316', '#8b5cf6', '#06b6d4',
+    '#dc2626', '#059669', '#7c3aed', '#db2777', '#2563eb'
+];
+
+// Function to get consistent colors for species/categories
+function getConsistentColors(labels) {
+    return labels.map((label, index) => {
+        if (!globalColorMap.has(label)) {
+            globalColorMap.set(label, baseColors[globalColorMap.size % baseColors.length]);
+        }
+        return globalColorMap.get(label);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Add taxonomy filter event listener
+    const taxonomyFilter = document.getElementById('taxonomyFilter');
+    if (taxonomyFilter) {
+        taxonomyFilter.addEventListener('change', function() {
+            updatePolarChartFilter(this.value);
+        });
+    }
+    
+    checkStatus();
+});
+</script>
+{% endblock %}
