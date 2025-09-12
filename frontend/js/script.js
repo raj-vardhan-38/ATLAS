@@ -1,4 +1,5 @@
 // Loading Screen Management
+const API_URL = "http://atlassystem.live/run_analysis";
 window.addEventListener('load', function() {
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
